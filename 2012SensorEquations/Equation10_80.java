@@ -1,6 +1,4 @@
-
 public class Equation10_80 {
-	
 	public static void main(String[] args)
 	{
 		//test
