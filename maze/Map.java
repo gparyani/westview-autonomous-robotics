@@ -1,5 +1,7 @@
 package maze;
 
+import java.util.ArrayList;
+
 public class Map {
 	
 	private int column;
@@ -8,7 +10,7 @@ public class Map {
 	public int columnShift;
 	private Tile[][] maize;
 	private int differential;
-	private int[] directions;
+	private ArrayList<Integer> directions;
 	private Tile lastTile;
 	//private Robot robot;
 	public Map(int numRow, int numCol, int spacing)
@@ -30,8 +32,8 @@ public class Map {
 		lastTile = maize[theRow+columnShift][theCol+rowShift];
 	}
 	// 
-	public void addDirection()
+	public void addDirection(int direction)
 	{
-		
+		directions.add(direction);
 	}
 }
