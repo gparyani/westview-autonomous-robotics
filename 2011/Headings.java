@@ -1,4 +1,3 @@
-package org.wvrobotics.iaroc;
 
 public class Headings {
     public static final int WEST = 0;
