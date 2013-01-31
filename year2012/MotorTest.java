@@ -26,7 +26,6 @@ public class MotorTest
 			
 			if (Button.RIGHT.isDown())
 			{
-				//motor.setPower(0);
 				motor.flt();
 				if (motorMoving == 1)
 				{
@@ -46,7 +45,7 @@ public class MotorTest
 			{
 				if (motorForward) motor.backward();
 				else motor.forward();
-				motorForward ^= true;
+				motorForward = !motorForward;
 			}
 			
 			Thread.sleep(500);
