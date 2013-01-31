@@ -46,6 +46,12 @@ public class MotorRotateTest
 				getMotor(MOTOR_LEFT).forward();
 				getMotor(MOTOR_RIGHT).backward();
 			}
+			else
+			{
+				// stop rotating
+				getMotor(MOTOR_LEFT).stop();
+				getMotor(MOTOR_RIGHT).stop();
+			}
 			
 			// wait for next loop
 			Thread.sleep(UPDATE_WAIT);
