@@ -9,30 +9,22 @@ import lejos.nxt.addon.tetrix.TetrixMotorController;
 
 public class MotorTest
 {
-	private static TetrixMotorController controller;
-	private static final int 
-		MOTOR_LEFT = TetrixMotorController.MOTOR_1,
-		MOTOR_RIGHT = TetrixMotorController.MOTOR_2;
-	
-	private static TetrixEncoderMotor getMotor(int motorID)
-	{
-		return controller.getEncoderMotor(motorID);
-	}
-	
 	public static void main(String[] args) throws Exception
 	{
 		TetrixControllerFactory factory = new TetrixControllerFactory(SensorPort.S1);
-		controller = factory.newMotorController();
-		//TetrixEncoderMotor motor = controller.getEncoderMotor(TetrixMotorController.MOTOR_1);
-		//motor.forward();
-		//int motorMoving = 1;
+		TetrixMotorController controller = factory.newMotorController();
+		TetrixEncoderMotor motor = controller.getEncoderMotor(TetrixMotorController.MOTOR_1);
+		motor.forward();
+		int motorMoving = 1;
+		boolean motorForward = true;
 		while (Button.ESCAPE.isUp())
 		{
-			//LCD.clear();
-			//LCD.drawString("Motor " + motorMoving + (motor.isMoving() ? "" : "Not ")
-			//		+ "Moving...", 0, 0);
+			LCD.clear();
+			LCD.drawString("Motor " + motorMoving + (motor.isMoving() ? " " : " Not ")
+					+ "Moving..", 0, 0);
+			LCD.drawString(motorForward ? "Forward" : "Backward", 0, 1);
 			
-			/*if (Button.LEFT.isDown() || Button.RIGHT.isDown())
+			if (Button.RIGHT.isDown())
 			{
 				//motor.setPower(0);
 				motor.flt();
@@ -40,24 +32,21 @@ public class MotorTest
 				{
 					motorMoving = 2;
 					motor = controller.getEncoderMotor(TetrixMotorController.MOTOR_2);
-					motor.forward();
+					motorForward = true;
 				}
 				else if (motorMoving == 2)
 				{
 					motorMoving = 1;
 					motor = controller.getEncoderMotor(TetrixMotorController.MOTOR_1);
-					motor.forward();
 				}
-			}*/
+				motor.forward();
+				motorForward = true;
+			}
 			if (Button.LEFT.isDown())
 			{
-				getMotor(MOTOR_LEFT).forward();
-				getMotor(MOTOR_RIGHT).backward();
-			}
-			else if (Button.RIGHT.isDown())
-			{
-				getMotor(MOTOR_LEFT).backward();
-				getMotor(MOTOR_RIGHT).forward();
+				if (motorForward) motor.backward();
+				else motor.forward();
+				motorForward ^= true;
 			}
 			
 			Thread.sleep(500);
