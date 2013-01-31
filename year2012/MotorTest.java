@@ -24,7 +24,8 @@ public class MotorTest
 			
 			if (Button.LEFT.isDown() || Button.RIGHT.isDown())
 			{
-				motor.setPower(0);
+				//motor.setPower(0);
+				motor.flt();
 				if (motorMoving == 1)
 				{
 					motorMoving = 2;
@@ -39,7 +40,7 @@ public class MotorTest
 				}
 			}
 			
-			Thread.sleep(50);
+			Thread.sleep(500);
 		}
 	}
 }
