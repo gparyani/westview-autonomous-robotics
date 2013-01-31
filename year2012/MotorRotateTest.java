@@ -31,9 +31,12 @@ public class MotorRotateTest
 		// right motor goes in wrong direction...
 		getMotor(MOTOR_RIGHT).setReverse(true);
 
-		// until ESCAPE button is pressed...
-		while (Button.ESCAPE.isUp())
+		while (true)
 		{
+			// exit if both buttons are down
+			if (Button.ENTER.isDown() && Button.ESCAPE.isDown())
+				break;
+			
 			if (Button.LEFT.isDown())
 			{
 				// rotate left: LEFT backward, RIGHT forward
@@ -44,6 +47,18 @@ public class MotorRotateTest
 			{
 				// rotate right: LEFT forward, RIGHT backward
 				getMotor(MOTOR_LEFT).forward();
+				getMotor(MOTOR_RIGHT).backward();
+			}
+			else if (Button.ENTER.isDown())
+			{
+				// move forward: LEFT forward, RIGHT forward
+				getMotor(MOTOR_LEFT).forward();
+				getMotor(MOTOR_RIGHT).forward();
+			}
+			else if (Button.ESCAPE.isDown())
+			{
+				// move backward: LEFT backward, RIGHT backward
+				getMotor(MOTOR_LEFT).backward();
 				getMotor(MOTOR_RIGHT).backward();
 			}
 			else
