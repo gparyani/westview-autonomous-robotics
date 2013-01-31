@@ -1,5 +1,3 @@
-package org.wvrobotics.iaroc;
-
 import lejos.nxt.SensorPort;
 import lejos.nxt.addon.tetrix.TetrixControllerFactory;
 import lejos.nxt.addon.tetrix.TetrixEncoderMotor;

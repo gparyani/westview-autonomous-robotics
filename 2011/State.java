@@ -1,5 +1,3 @@
-package org.wvrobotics.iaroc;
-
 import java.io.Serializable;
 
 public class State implements Serializable{

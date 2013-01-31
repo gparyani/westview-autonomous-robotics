@@ -1,5 +1,3 @@
-package org.wvrobotics.iaroc;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 

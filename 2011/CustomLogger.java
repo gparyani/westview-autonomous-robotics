@@ -1,5 +1,3 @@
-package org.wvrobotics.iaroc;
-
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;

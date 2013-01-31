@@ -1,4 +1,3 @@
-package org.wvrobotics.iaroc;
 import lejos.nxt.LCD;
 public class UStest {
 	
