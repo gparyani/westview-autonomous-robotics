@@ -9,20 +9,30 @@ import lejos.nxt.addon.tetrix.TetrixMotorController;
 
 public class MotorTest
 {
+	private static TetrixMotorController controller;
+	private static final int 
+		MOTOR_LEFT = TetrixMotorController.MOTOR_1,
+		MOTOR_RIGHT = TetrixMotorController.MOTOR_2;
+	
+	private static TetrixEncoderMotor getMotor(int motorID)
+	{
+		return controller.getEncoderMotor(motorID);
+	}
+	
 	public static void main(String[] args) throws Exception
 	{
 		TetrixControllerFactory factory = new TetrixControllerFactory(SensorPort.S1);
-		TetrixMotorController controller = factory.newMotorController();
-		TetrixEncoderMotor motor = controller.getEncoderMotor(TetrixMotorController.MOTOR_1);
-		motor.forward();
-		int motorMoving = 1;
+		controller = factory.newMotorController();
+		//TetrixEncoderMotor motor = controller.getEncoderMotor(TetrixMotorController.MOTOR_1);
+		//motor.forward();
+		//int motorMoving = 1;
 		while (Button.ESCAPE.isUp())
 		{
-			LCD.clear();
-			LCD.drawString("Motor " + motorMoving + (motor.isMoving() ? "" : "Not ")
-					+ "Moving...", 0, 0);
+			//LCD.clear();
+			//LCD.drawString("Motor " + motorMoving + (motor.isMoving() ? "" : "Not ")
+			//		+ "Moving...", 0, 0);
 			
-			if (Button.LEFT.isDown() || Button.RIGHT.isDown())
+			/*if (Button.LEFT.isDown() || Button.RIGHT.isDown())
 			{
 				//motor.setPower(0);
 				motor.flt();
@@ -38,6 +48,16 @@ public class MotorTest
 					motor = controller.getEncoderMotor(TetrixMotorController.MOTOR_1);
 					motor.forward();
 				}
+			}*/
+			if (Button.LEFT.isDown())
+			{
+				getMotor(MOTOR_LEFT).forward();
+				getMotor(MOTOR_RIGHT).backward();
+			}
+			else if (Button.RIGHT.isDown())
+			{
+				getMotor(MOTOR_LEFT).backward();
+				getMotor(MOTOR_RIGHT).forward();
 			}
 			
 			Thread.sleep(500);
