@@ -17,14 +17,23 @@ public class MotorTest
 		motor.forward();
 		int motorMoving = 1;
 		boolean motorForward = true;
-		while (Button.ESCAPE.isUp())
+      
+    boolean leftButtonDown = false, rightButtonDown = false, escapeButtonDown = false,
+            prevLeftButtonDown = false, prevRightButtonDown = false, prevEscapeButtonDown = false;
+		while (true)
 		{
 			LCD.clear();
 			LCD.drawString("Motor " + motorMoving + (motor.isMoving() ? " " : " Not ")
 					+ "Moving..", 0, 0);
 			LCD.drawString(motorForward ? "Forward" : "Backward", 0, 1);
 			
-			if (Button.RIGHT.isDown())
+      boolean leftButtonPressed = leftButtonDown && !prevLeftButtonDown,
+              rightButtonPressed = rightButtonDown && !prevRightButtonDown,
+              escapeButtonPressed = escapeButtonDown && !prevEscapeButtonDown;
+              
+      if (escapeButtonPressed) break;
+         
+			if (leftButtonPressed)
 			{
 				motor.flt();
 				if (motorMoving == 1)
@@ -41,14 +50,22 @@ public class MotorTest
 				motor.forward();
 				motorForward = true;
 			}
-			if (Button.LEFT.isDown())
+			if (rightButtonPressed)
 			{
 				if (motorForward) motor.backward();
 				else motor.forward();
 				motorForward = !motorForward;
 			}
 			
-			Thread.sleep(500);
+      prevLeftButtonDown = leftButtonDown;
+      prevRightButtonDown = rightButtonDown;
+      prevEscapeButtonDown = escapeButtonDown;
+        
+			Thread.sleep(50);
+         
+      leftButtonDown = Button.LEFT.isDown();
+      rightButtonDown = Button.RIGHT.isDown();
+      escapeButtonDown = Button.ESCAPE.isDown();
 		}
 	}
 }
