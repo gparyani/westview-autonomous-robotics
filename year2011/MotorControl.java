@@ -11,6 +11,7 @@ public class MotorControl {
 	private boolean moving;
 	
 	public static int DISTANCE = 1136;
+	public static double CM_IN_INCHES = 2.54;
 	public static int NORTH = TetrixMotorController.MOTOR_1;
 	public static int SOUTH = TetrixMotorController.MOTOR_2;
 	public static int EAST = TetrixMotorController.MOTOR_1;
@@ -66,10 +67,11 @@ public class MotorControl {
 	
 	public void rotate(int distance){
 		moving = true;
-		east.rotate((int) -((double) ((distance / 2.54)/31) * DISTANCE), true);
-		north.rotate((int) -((double) ((distance / 2.54)/31) * DISTANCE), true);
-		south.rotate((int) -((double) ((distance / 2.54)/31) * DISTANCE), true);
-		west.rotate((int) -((double) ((distance / 2.54)/31) * DISTANCE), false);
+		// 1 inch = 2.54cm
+		east.rotate(-(int)(((distance / CM_IN_INCHES) / 31) * DISTANCE), true);
+		north.rotate(-(int)(((distance / CM_IN_INCHES) / 31) * DISTANCE), true);
+		south.rotate(-(int)(((distance / CM_IN_INCHES) / 31) * DISTANCE), true);
+		west.rotate(-(int)(((distance / CM_IN_INCHES) / 31) * DISTANCE), false);
 		try {
 			Thread.sleep(1000);
 		}
