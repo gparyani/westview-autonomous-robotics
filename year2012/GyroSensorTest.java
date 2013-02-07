@@ -1,4 +1,5 @@
 package year2012;
+import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
 import lejos.nxt.addon.GyroSensor;
@@ -11,7 +12,8 @@ public class GyroSensorTest {
 		while(true)
 		{
 			LCD.clearDisplay();
-			LCD.drawString(Float.toString(sensor.getAngularVelocity()), 0, 0);
+			LCD.drawString("" + sensor.getAngularVelocity(), 0, 0);
+			if (Button.ENTER.isDown() || Button.ESCAPE.isDown()) break;
 			Thread.sleep(50);
 		}
 	}
