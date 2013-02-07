@@ -28,7 +28,7 @@ public class MotorRotateTest
 		TetrixControllerFactory factory = new TetrixControllerFactory(SensorPort.S1);
 		controller = factory.newMotorController();
 		
-		// right motor goes in wrong direction...
+		// right motor goes in wrong direction... set it straight!
 		getMotor(MOTOR_RIGHT).setReverse(true);
 
 		while (true)
