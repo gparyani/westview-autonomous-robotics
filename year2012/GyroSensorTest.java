@@ -12,7 +12,7 @@ public class GyroSensorTest {
 		while(true)
 		{
 			LCD.clearDisplay();
-			LCD.drawString("" + sensor.getAngularVelocity(), 0, 0);
+			LCD.drawString("" + (sensor.getAngularVelocity() - 1023f), 0, 0);
 			if (Button.ENTER.isDown() || Button.ESCAPE.isDown()) break;
 			Thread.sleep(50);
 		}
