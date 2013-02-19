@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.Map.Entry;
 
 // implements an interpolated data lookup-table
-// that uses a linear spline to interpolate unknown
+// that uses a cosine interpolation to guesstimate unknown
 // datapoints
 public class LookupTable
 {
