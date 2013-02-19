@@ -24,9 +24,7 @@ public class MotorRotateTest
 	}
 	
 	public static void main(String[] args) throws Exception
-	{
-		LCD.drawString("Hello, NXT!", 0, 0);
-		
+	{		
 		TetrixControllerFactory factory = new TetrixControllerFactory(SensorPort.S1);
 		controller1 = factory.newMotorController();
 		controller2 = factory.newMotorController();
@@ -38,7 +36,13 @@ public class MotorRotateTest
 		{
 			// exit if both buttons are down
 			if (Button.ENTER.isDown() && Button.ESCAPE.isDown())
-				break;
+			{
+				int choice = Menu.show("Menu", "Quit", "Don't Quit");
+				if (choice == 0)
+					break;
+				else
+					continue;
+			}
 			
 			if (Button.LEFT.isDown())
 			{
