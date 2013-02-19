@@ -39,10 +39,10 @@ public class HelloSensorMain extends I2CSensor {
 					+ (0xff & (int) readBuffer[1]);
 			accum = accum / 2 + inputData;
 			LCD.clearDisplay();
-			LCD.drawInt(inputData, 0, 0);
-			LCD.drawInt(readBuffer[0], 1, 1);
-			LCD.drawInt(readBuffer[1], 2, 2);
-			LCD.drawInt(accum / 2, 3, 3);
+			LCD.drawString("Input:   " + inputData, 0, 0);
+			LCD.drawString("Read[0]: " + readBuffer[0], 0, 1);
+			LCD.drawString("Read[1]: " + readBuffer[1], 0, 2);
+			LCD.drawString("Accum/2: " + accum / 2, 0, 3);
 		}
 	}
 
