@@ -5,14 +5,7 @@ import lejos.nxt.I2CSensor;
 import lejos.nxt.SensorPort;
 
 public abstract class Sensor extends I2CSensor
-{
-	public static int SUPERPRO_ADDR = 0x10;
-	public static int ADDR_A0 = 0x42,
-					   ADDR_A1 = 0x44,
-					   ADDR_A2 = 0x46,
-					   ADDR_A3 = 0x48,
-					   ADDR_B = 0x4C;
-	
+{	
 	private int ReadBufferAddress;
 	private int ReadBufferLength;
 	
