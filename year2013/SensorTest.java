@@ -13,9 +13,9 @@ public class SensorTest extends NXTApp
 	{
 		super(50);
 		
-		A0 = new DistanceSensor(Sensor.ADDR_A0, Sensor.SUPERPRO_ADDR, SensorPort.S2);
-		A1 = new DistanceSensor(Sensor.ADDR_A1, Sensor.SUPERPRO_ADDR, SensorPort.S2);
-		B = new DigitalSensor(Sensor.ADDR_B, 0, Sensor.SUPERPRO_ADDR, SensorPort.S2);
+		A0 = new DistanceSensor(SensorAddresses.A0, SensorAddresses.Superpro, SensorPort.S2);
+		A1 = new DistanceSensor(SensorAddresses.A1, SensorAddresses.Superpro, SensorPort.S2);
+		B = new DigitalSensor(SensorAddresses.B, 0, SensorAddresses.Superpro, SensorPort.S2);
 	}
 	
 	protected void Update()
