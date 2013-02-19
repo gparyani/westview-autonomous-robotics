@@ -20,7 +20,7 @@ public class Menu
 		LCD.drawString(title, 0, 0);
 		// and all the options
 		for (int opt = 0; opt < options.length; opt++)
-			LCD.drawString(options[opt], opt + 1, 1);
+			LCD.drawString(options[opt], 1, opt + 1);
 
 		int choice = 1;
 		LCD.drawChar('>', 0, 1);
