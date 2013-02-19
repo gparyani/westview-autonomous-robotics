@@ -9,7 +9,7 @@ public class DigitalSensor extends Sensor
 	
 	private boolean InvertData;
 	
-	public DigitalSensor(int readBufferBit, int readBufferAddress, int superproAddress, SensorPort port)
+	public DigitalSensor(int readBufferAddress, int readBufferBit, int superproAddress, SensorPort port)
 	{
 		super(readBufferAddress, 1, superproAddress, port);
 		this.ReadBufferBit = readBufferBit;
