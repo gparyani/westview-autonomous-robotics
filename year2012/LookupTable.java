@@ -114,6 +114,7 @@ public class LookupTable
 			double leftY, double rightY)
 	{
 		// "I have only proven this code correct; not tested it."
+		// - but I'm pretty sure it works!
 		return leftY + (rightY - leftY) / (rightX - leftX) * (x - leftX);
 	}
 	
