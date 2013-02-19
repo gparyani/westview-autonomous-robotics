@@ -34,6 +34,10 @@ public class MotorRotateTest
 
 		while (true)
 		{
+			// the code below actually is useless...
+			// if I use LEFT and RIGHT buttons, they are never registered as both down.
+			// if I use ENTER and ESCAPE buttons, those end any program immediately...
+			/*
 			// exit menu if both buttons are down
 			if (Button.LEFT.isDown() && Button.RIGHT.isDown())
 			{
@@ -45,7 +49,7 @@ public class MotorRotateTest
 						break;
 				}
 				continue;
-			}
+			}*/
 			
 			if (Button.LEFT.isDown())
 			{
