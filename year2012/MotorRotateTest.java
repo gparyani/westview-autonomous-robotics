@@ -34,7 +34,7 @@ public class MotorRotateTest
 
 		while (true)
 		{
-			// exit if both buttons are down
+			// exit menu if both buttons are down
 			if (Button.ENTER.isDown() && Button.ESCAPE.isDown())
 			{
 				int choice = Menu.show("Menu", "Quit", "Don't Quit");
