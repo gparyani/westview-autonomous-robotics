@@ -1,7 +1,7 @@
 package year2012;
 
 import lejos.nxt.Button;
-import lejos.nxt.LCD;
+//import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
 import lejos.nxt.addon.tetrix.TetrixControllerFactory;
 import lejos.nxt.addon.tetrix.TetrixEncoderMotor;
