@@ -14,7 +14,6 @@ public class DragRace
 							 MOTOR_RIGHT = 1,
 							 MOTOR_FRONT = 0,
 							 MOTOR_BACK = 2;
-	private static final int UPDATE_WAIT = 1; // ms
 	
 	private static TetrixEncoderMotor getMotor(int motorID)
 	{
