@@ -1,7 +1,5 @@
 package year2013.NXTApp;
 
-import lejos.nxt.Button;
-
 public abstract class NXTApp
 {
 	private int UpdateInterval;
