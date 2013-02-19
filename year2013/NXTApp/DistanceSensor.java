@@ -1,27 +1,19 @@
 package year2013.NXTApp;
 
-import lejos.nxt.I2CPort;
-import lejos.nxt.I2CSensor;
 import lejos.nxt.SensorPort;
 
-public class DistanceSensor extends I2CSensor
+public class DistanceSensor extends Sensor
 {
-	private int ReadBufferAddress;
 	private int Voltage;
 	
 	public DistanceSensor(int readBufferAddress, int superproAddress, SensorPort port)
 	{
-		super(port, superproAddress, I2CPort.LEGO_MODE, TYPE_LOWSPEED_9V);
-		this.ReadBufferAddress = readBufferAddress;
+		super(readBufferAddress, 2, superproAddress, port);
 		this.Voltage = 0;
 	}
 	
-	public void Update()
+	protected void ProcessData(byte[] readBuffer)
 	{
-		byte[] readBuffer = new byte[2];
-		
-		this.getData(this.ReadBufferAddress, readBuffer, 2);
-		
 		int inputData = (0xff & (int) readBuffer[0]) * 4
 				+ (0xff & (int) readBuffer[1]);
 		
