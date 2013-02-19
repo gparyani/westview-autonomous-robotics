@@ -25,6 +25,10 @@ public class MotorRotateTest
 	
 	public static void main(String[] args) throws Exception
 	{		
+		int choice = Menu.show("MotorRotateTest", "Run", "Quit");
+		if (choice != 0)
+			return;
+		
 		TetrixControllerFactory factory = new TetrixControllerFactory(SensorPort.S1);
 		controller1 = factory.newMotorController();
 		controller2 = factory.newMotorController();
