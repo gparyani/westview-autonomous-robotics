@@ -5,16 +5,19 @@ import lejos.nxt.Button;
 public abstract class NXTApp
 {
 	private int UpdateInterval;
-	protected NXTButton Left, Right, Enter, Escape;
+	protected static class Button
+	{
+		public static NXTButton Left, Right, Enter, Escape;
+	}
 	
 	protected NXTApp(int updateInterval)
 	{
 		this.UpdateInterval = updateInterval;
 		
-		Left = new NXTButton(Button.LEFT.isDown());
-		Right = new NXTButton(Button.RIGHT.isDown());
-		Enter = new NXTButton(Button.ENTER.isDown());
-		Escape = new NXTButton(Button.ESCAPE.isDown());
+		Button.Left = new NXTButton(lejos.nxt.Button.LEFT.isDown());
+		Button.Right = new NXTButton(lejos.nxt.Button.RIGHT.isDown());
+		Button.Enter = new NXTButton(lejos.nxt.Button.ENTER.isDown());
+		Button.Escape = new NXTButton(lejos.nxt.Button.ESCAPE.isDown());
 	}
 	
 	protected void Run() throws InterruptedException
@@ -25,10 +28,10 @@ public abstract class NXTApp
 			
 			Thread.sleep(UpdateInterval);
 			
-			Left.Update(Button.LEFT.isDown());
-			Right.Update(Button.RIGHT.isDown());
-			Enter.Update(Button.ENTER.isDown());
-			Escape.Update(Button.ESCAPE.isDown());
+			Button.Left.Update(lejos.nxt.Button.LEFT.isDown());
+			Button.Right.Update(lejos.nxt.Button.RIGHT.isDown());
+			Button.Enter.Update(lejos.nxt.Button.ENTER.isDown());
+			Button.Escape.Update(lejos.nxt.Button.ESCAPE.isDown());
 		}
 	}
 	
