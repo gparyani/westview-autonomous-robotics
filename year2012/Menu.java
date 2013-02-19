@@ -11,9 +11,47 @@ public class Menu
 		throw new Exception("Cannot create Menu instance!");
 	}
 	
-	// shows a menu, and waits for the user to select an option
-	public static int show(boolean preclear, boolean postclear, String title, String... options)
+	private static final int 
+		ENTER = 0, 
+		ESCAPE = 1, 
+		LEFT = 2, 
+		RIGHT = 3;
+	private static boolean[] prevButtons;
+	private static boolean[] buttons;
+	
+	// refreshes button arrays
+	private static void getButtons()
 	{
+		buttons = new boolean[] {
+				Button.ENTER.isDown(),
+				Button.ESCAPE.isDown(),
+				Button.LEFT.isDown(),
+				Button.RIGHT.isDown()
+		};
+	}
+	private static void loadButtons()
+	{
+		prevButtons = buttons;
+		getButtons();
+	}
+	
+	// was the specified button pressed in the last update?
+	private static boolean wasPressed(int button)
+	{
+		return buttons[button] && !prevButtons[button];
+	}
+	// was the specified button released in the last update?
+	private static boolean wasReleased(int button)
+	{
+		return prevButtons[button] && !buttons[button];
+	}
+	
+	// shows a menu, and waits for the user to select an option
+	public static int show(boolean preclear, boolean postclear, String title, String... options) throws Exception
+	{
+		if (options.length > 7)
+			throw new Exception("Only 7 options are allowed.");
+		
 		if (preclear) LCD.clear();
 		
 		// draw title
@@ -25,23 +63,27 @@ public class Menu
 		int choice = 1;
 		LCD.drawChar('>', 0, 1);
 		
+		getButtons();
+		
 		while (true)
 		{
-			if (Button.RIGHT.isDown())
+			loadButtons();
+			
+			if (wasPressed(RIGHT))
 			{
 				if (postclear) LCD.clear();
 				// right -> select choice
 				// choice is 1-based, so subtract 1 to make it 0-based
 				return choice - 1;
 			}
-			else if (Button.LEFT.isDown())
+			else if (wasPressed(LEFT))
 			{
 				if (postclear) LCD.clear();
 				// left -> exit/quit menu
 				// -1 is error code
 				return -1;
 			}
-			else if (Button.ENTER.isDown())
+			else if (wasPressed(ENTER))
 			{
 				// enter -> move pointer up
 				// wraps around top to bottom
@@ -51,7 +93,7 @@ public class Menu
 					choice = options.length;
 				move(prev, choice);
 			}
-			else if (Button.ESCAPE.isDown())
+			else if (wasPressed(ESCAPE))
 			{
 				// escape -> move pointer down
 				// wraps around bottom to top
@@ -64,7 +106,7 @@ public class Menu
 			
 			try 
 			{
-				Thread.sleep(25);
+				Thread.sleep(5);
 			} 
 			catch (InterruptedException e)
 			{
@@ -80,8 +122,6 @@ public class Menu
 	
 	public static int show(String title, String... options) throws Exception
 	{
-		if (options.length > 7)
-			throw new Exception("Up to 7 menu options are allowed.");
 		return Menu.show(true, true, title, options);
 	}
 }
