@@ -13,6 +13,8 @@ public class SensorTest extends NXTApp
 	{
 		super(50);
 		
+		Motors.Initialize(SensorPort.S1);
+		
 		A0 = new DistanceSensor(SensorAddresses.A0, SensorAddresses.Superpro, SensorPort.S2);
 		A1 = new DistanceSensor(SensorAddresses.A1, SensorAddresses.Superpro, SensorPort.S2);
 		B = new DigitalSensor(SensorAddresses.B, 0, SensorAddresses.Superpro, SensorPort.S2);
@@ -32,7 +34,7 @@ public class SensorTest extends NXTApp
 	
 	protected boolean ShouldExit()
 	{
-		return Left.IsDown() || Right.IsDown() || Enter.IsDown() || Escape.IsDown();
+		return Button.Escape.IsDown();
 	}
 	
 	public static void main(String[] args) throws InterruptedException
