@@ -37,5 +37,9 @@ public class DragRace
 		getMotor(MOTOR_BACK).stop();
 		
 		Menu.show("DragRace", "Quit");
+		
+
+		getMotor(MOTOR_LEFT).stop();
+		getMotor(MOTOR_RIGHT).stop();
 	}
 }
