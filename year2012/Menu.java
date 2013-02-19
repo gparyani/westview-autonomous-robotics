@@ -12,8 +12,10 @@ public class Menu
 	}
 	
 	// shows a menu, and waits for the user to select an option
-	public static int show(String title, String... options)
+	public static int show(boolean preclear, boolean postclear, String title, String... options)
 	{
+		if (preclear) LCD.clear();
+		
 		// draw title
 		LCD.drawString(title, 0, 0);
 		// and all the options
@@ -26,13 +28,19 @@ public class Menu
 		while (true)
 		{
 			if (Button.RIGHT.isDown())
+			{
+				if (postclear) LCD.clear();
 				// right -> select choice
 				// choice is 1-based, so subtract 1 to make it 0-based
 				return choice - 1;
+			}
 			else if (Button.LEFT.isDown())
+			{
+				if (postclear) LCD.clear();
 				// left -> exit/quit menu
 				// -1 is error code
 				return -1;
+			}
 			else if (Button.ENTER.isDown())
 			{
 				// enter -> move pointer up
@@ -56,7 +64,7 @@ public class Menu
 			
 			try 
 			{
-				Thread.sleep(5);
+				Thread.sleep(25);
 			} 
 			catch (InterruptedException e)
 			{
@@ -68,5 +76,10 @@ public class Menu
 	{
 		LCD.drawChar(' ', 0, prev);
 		LCD.drawChar('>', 0, cur);
+	}
+	
+	public static int show(String title, String... options)
+	{
+		return Menu.show(true, true, title, options);
 	}
 }
