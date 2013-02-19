@@ -78,8 +78,10 @@ public class Menu
 		LCD.drawChar('>', 0, cur);
 	}
 	
-	public static int show(String title, String... options)
+	public static int show(String title, String... options) throws Exception
 	{
+		if (options.length > 7)
+			throw new Exception("Up to 7 menu options are allowed.");
 		return Menu.show(true, true, title, options);
 	}
 }
