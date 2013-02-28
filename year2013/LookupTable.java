@@ -46,6 +46,7 @@ public class LookupTable
 	
 	private TreeMap<Double, Double> map;
 	// smallest number > 0
+	// chosen empirically to make the dang program work...
 	private final double EPSILON = 0.0000000000001;
 	
 	public LookupTable()
