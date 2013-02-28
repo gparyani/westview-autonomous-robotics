@@ -3,8 +3,8 @@
  */
 package year2012;
 
-import java.util.ArrayList;
-
+import lejos.nxt.Button;
+import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
 import lejos.nxt.addon.GyroSensor;
 
@@ -40,15 +40,20 @@ public class GyroSensorImpl
 		updateVelocity.setDaemon(true);	//terminate this thread when all others have terminated
 		updateVelocity.setName("GyroSensor Get Velocity");
 		updateVelocity.start();
-		try
-		{
-			Thread.sleep(5000);
-		}
-		catch(InterruptedException e){}
 	}
 	
 	public float getAngularVelocity()
 	{
 		return currentVelocity;
+	}
+	
+	public static void main(String... args)
+	{
+		GyroSensorImpl sensor = new GyroSensorImpl(SensorPort.S1);
+		while(Button.ESCAPE.isUp())
+		{
+			LCD.clearDisplay();
+			LCD.drawString(String.valueOf(sensor.getAngularVelocity()), 0, 0);
+		}
 	}
 }
