@@ -18,13 +18,17 @@ public abstract class NXTApp
 		Button.Escape = new NXTButton(lejos.nxt.Button.ESCAPE.isDown());
 	}
 	
-	protected void Run() throws InterruptedException
+	protected void Run()
 	{
 		while (!ShouldExit())
 		{
 			Update();
 			
-			Thread.sleep(UpdateInterval);
+			try
+			{
+				Thread.sleep(UpdateInterval);
+			}
+			catch (InterruptedException e) { }
 			
 			Button.Left.Update(lejos.nxt.Button.LEFT.isDown());
 			Button.Right.Update(lejos.nxt.Button.RIGHT.isDown());
