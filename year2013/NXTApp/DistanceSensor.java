@@ -25,4 +25,10 @@ public class DistanceSensor extends Sensor
 	{
 		return this.Voltage;
 	}
+	
+	// return value is in cm
+	public static double GetDistance(DistanceSensor longRangeSensor, DistanceSensor mediumRangeSensor, DigitalSensor shortRange)
+	{
+		return 0;
+	}
 }
