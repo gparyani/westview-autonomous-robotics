@@ -7,26 +7,32 @@ import lejos.nxt.SensorPort;
 public class DragRace extends NXTApp
 {
 	DigitalSensor ShortRange;
+	boolean Exit = false;
+	boolean Running = false;
 	public DragRace() throws Exception
 	{
 		super(0);
 		
 		Motors.Initialize(SensorPort.S1);
 		
-		int choice = Menu.show("DragRace", "Run", "Quit");
-		if (choice != 0)
-			return;
-		
-		Motors.Left.forward();
-		Motors.Right.backward();
-		Motors.Front.stop();
-		Motors.Back.stop();
-		
 		ShortRange = new DigitalSensor(SensorAddresses.B, 0, SensorAddresses.Superpro, SensorPort.S2);
 	}
 	
 	protected void Update()
 	{
+		if (!Running)
+			LCD.drawString("Press any button\nto start the\ndrag-race.", 0, 0);
+		else
+			LCD.drawString("Drag-Race\nin Progress.", 0, 0);
+		if (Button.Left.IsDown() || Button.Right.IsDown() || Button.Enter.IsDown() || Button.Escape.IsDown())
+		{
+			Running = true;
+			Motors.Left.backward();
+			Motors.Right.forward();
+			Motors.Front.stop();
+			Motors.Back.stop();
+		}
+		
 		ShortRange.Update();
 		if (ShortRange.GetData())
 		{
@@ -34,12 +40,12 @@ public class DragRace extends NXTApp
 			Motors.Right.stop();
 			Motors.Front.stop();
 			Motors.Back.stop();
+			Exit = true;
 		}
 	}
 	protected boolean ShouldExit()
 	{
-		return Button.Left.IsDown() || Button.Right.IsDown()
-			|| Button.Enter.IsDown() || Button.Escape.IsDown();
+		return Exit;
 	}
 	
 	public static void main(String[] args) throws Exception
