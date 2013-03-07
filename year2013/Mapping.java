@@ -57,12 +57,11 @@ public class Mapping<K extends Comparable<K>, V>
 		return entries.size();
 	}
 	
-	class SortedList<T> extends ArrayList<T>
+	class SortedList<T extends Comparable<T>> extends ArrayList<T>
 	{
 		private static final long serialVersionUID = 1L;
 
-		@SuppressWarnings("unchecked")
-	    public boolean add(T value)
+		public boolean add(T value)
 		{
 	        boolean result = super.add(value);
 	        Comparable<T> cmp = (Comparable<T>) value;
@@ -71,5 +70,4 @@ public class Mapping<K extends Comparable<K>, V>
 	        return result;
 	    }
 	}
-	
 }
