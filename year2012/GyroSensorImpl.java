@@ -54,6 +54,8 @@ public class GyroSensorImpl
 		{
 			LCD.clearDisplay();
 			LCD.drawString(String.valueOf(sensor.getAngularVelocity()), 0, 0);
+			try { Thread.sleep(50); }
+			catch (InterruptedException e) { }
 		}
 	}
 }
