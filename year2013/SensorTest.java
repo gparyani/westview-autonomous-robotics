@@ -13,7 +13,7 @@ public class SensorTest extends NXTApp
 	{
 		super(50);
 		
-		Motors.Initialize(SensorPort.S1);
+		LookupTable.LoadSensorData();
 		
 		A0 = new DistanceSensor(SensorAddresses.A0, SensorAddresses.Superpro, SensorPort.S2);
 		A1 = new DistanceSensor(SensorAddresses.A1, SensorAddresses.Superpro, SensorPort.S2);
@@ -30,6 +30,8 @@ public class SensorTest extends NXTApp
 		LCD.drawString("Accum0: " + A0.GetVoltage(), 0, 0);
 		LCD.drawString("Accum1: " + A1.GetVoltage(), 0, 1);
 		LCD.drawString("SR Read: " + B.GetData(), 0, 2);
+		
+		LCD.drawString("Distance: " + DistanceSensor.GetDistance(A0, A1, B), 0, 4);
 	}
 	
 	protected boolean ShouldExit()
