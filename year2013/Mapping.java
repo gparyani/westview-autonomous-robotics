@@ -66,7 +66,13 @@ public class Mapping<K extends Comparable<K>, V>
 	        boolean result = super.add(value);
 	        Comparable<T> cmp = (Comparable<T>) value;
 	        for (int i = size() - 1; i > 0 && cmp.compareTo(get(i - 1)) < 0; i--)
-	            Collections.swap(this, i, i - 1);
+	        {
+	        	T atI = get(i);
+	        	T atI1 = get(i - 1);
+	        	set(i, atI1);
+	        	set(i - 1, atI);
+	            //Collections.swap(this, i, i - 1);
+	        }
 	        return result;
 	    }
 	}

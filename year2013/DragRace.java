@@ -37,8 +37,9 @@ public class DragRace extends NXTApp
 		
 		ShortRange.Update();
 		MediumRange.Update();
-		// 1600 is just an arbitrary voltage to stop at.
-		if (ShortRange.GetData() || MediumRange.GetVoltage() > 1800)
+		LCD.drawString("Medium-Range: " + MediumRange.GetVoltage(), 0, 7);
+		// 80 is just an arbitrary voltage to stop at.
+		if (Running && (ShortRange.GetData() || MediumRange.GetVoltage() > 80))
 		{
 			Motors.Left.stop();
 			Motors.Right.stop();
