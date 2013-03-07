@@ -1,7 +1,6 @@
 package year2013;
 
-import java.util.*;
-import java.util.Map.Entry;
+import year2013.MapEntry;
 
 // implements an interpolated data lookup-table
 // that uses a cosine interpolation to guesstimate unknown
@@ -44,27 +43,24 @@ public class LookupTable
 		}
 	}
 	
-	private TreeMap<Double, Double> map;
-	// smallest number > 0
-	// chosen empirically to make the dang program work...
-	private final double EPSILON = 0.0000000000001;
+	private Mapping<Double, Double> map;
 	
 	public LookupTable()
 	{
-		map = new TreeMap<Double, Double>();
+		map = new Mapping<Double, Double>();
 	}
 	
 	// adds the datapoint to the lookup table
 	public void set(double x, double y)
 	{
-		map.put(x, y);
+		map.add(x, y);
 	}
 	
 	// removes a given datapoint from the lookup table.
 	// returns true if there was such a datapoint (and it was then removed).
 	public boolean remove(double x)
 	{
-		return map.remove(x) != null;
+		return map.remove(x);
 	}
 	
 	public double get(double x)
@@ -79,8 +75,8 @@ public class LookupTable
 			return exact;
 		
 		// get the entry just to the left and just to the right of x
-		Entry<Double, Double> left = map.floorEntry(x),
-						      right = map.ceilingEntry(x);
+		MapEntry<Double, Double> left = map.lower(x);
+		MapEntry<Double, Double> right = map.higher(x);
 
 		boolean outOfBounds = (left == null) || (right == null);
 	    if (left == null)
@@ -88,26 +84,26 @@ public class LookupTable
 	    	// desired point is to the left of all data
 	    	// so get the two left-most datapoints, and interpolate from there
 	    	left = right;
-	    	right = map.ceilingEntry(left.getKey() + EPSILON);
+	    	right = map.higher(left.key);
 	    }
 	    else if (right == null)
 	    {
 	    	// desired point is to the right of all data
 	    	// so get the two right-most datapoints, and interpolate
 	    	right = left;
-	    	left = map.floorEntry(right.getKey() - EPSILON);
+	    	left = map.lower(right.key);
 	    }
 	    
 	    if (outOfBounds)
 	    	// use a linear interpolation out of bounds
 	    	// because cos interpolation will oscillate infinitely
 	    	return linear_interp(x,
-	    			left.getKey(), right.getKey(),
-	    			left.getValue(), right.getValue());
+	    			left.key, right.key,
+	    			left.value, right.value);
 	    // in bounds, use a cosine interpolation for better smoothing
     	return cos_interp(x, 
-    			left.getKey(), right.getKey(), 
-    			left.getValue(), right.getValue());
+    			left.key, right.key,
+    			left.value, right.value);
 	}
 	
 	private double linear_interp(double x, 

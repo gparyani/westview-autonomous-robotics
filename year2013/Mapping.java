@@ -5,46 +5,56 @@ import java.util.Collections;
 
 public class Mapping<K extends Comparable<K>, V>
 {
-	private SortedList<Entry<K, V>> entries;
+	private SortedList<MapEntry<K, V>> entries;
 	
 	public Mapping()
 	{
-		entries = new SortedList<Entry<K, V>>();
+		entries = new SortedList<MapEntry<K, V>>();
 	}
 	
 	private int indexOf(K key)
 	{
-		return entries.indexOf(new Entry<K, V>(key, null));
+		return entries.indexOf(new MapEntry<K, V>(key, null));
+	}
+	
+	public V get(K key)
+	{
+		return entries.get(indexOf(key)).value;
 	}
 	
 	public void add(K key, V value)
 	{
-		entries.add(new Entry<K, V>(key, value));
+		entries.add(new MapEntry<K, V>(key, value));
 	}
-	public void remove(K key)
+	public boolean remove(K key)
 	{
-		entries.remove(indexOf(key));
+		return entries.remove(indexOf(key)) != null;
 	}
 	
-	public Entry<K, V> lower(K key)
+	public MapEntry<K, V> lower(K key)
 	{
 		for (int i = entries.size() - 1; i >= 0; i--)
 		{
-			Entry<K, V> entry = entries.get(i);
+			MapEntry<K, V> entry = entries.get(i);
 			if (entry.key.compareTo(key) < 0)
 				return entry;
 		}
 		return null;
 	}
-	public Entry<K, V> higher(K key)
+	public MapEntry<K, V> higher(K key)
 	{
 		for (int i = 0; i < entries.size(); i++)
 		{
-			Entry<K, V> entry = entries.get(i);
+			MapEntry<K, V> entry = entries.get(i);
 			if (entry.key.compareTo(key) > 0)
 				return entry;
 		}
 		return null;
+	}
+
+	public int size()
+	{
+		return entries.size();
 	}
 	
 	class SortedList<T> extends ArrayList<T>
@@ -62,29 +72,4 @@ public class Mapping<K extends Comparable<K>, V>
 	    }
 	}
 	
-	public class Entry<K extends Comparable<K>, V>
-	{
-		public K key;
-		public V value;
-		
-		public Entry(K key, V value)
-		{
-			this.key = key;
-			this.value = value;
-		}
-		
-		@SuppressWarnings("unchecked")
-		public int compareTo(Object obj)
-		{
-			if (obj instanceof Entry)
-				return key.compareTo(((Entry<K, V>)obj).key);
-			else
-				return key.compareTo((K)obj);
-		}
-		
-		public boolean equals(Object obj)
-		{
-			return compareTo(obj) == 0;
-		}
-	}
 }
