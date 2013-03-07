@@ -7,6 +7,7 @@ import lejos.nxt.SensorPort;
 public class DragRace extends NXTApp
 {
 	DigitalSensor ShortRange;
+	DistanceSensor MediumRange;
 	boolean Exit = false;
 	boolean Running = false;
 	public DragRace()
@@ -16,6 +17,7 @@ public class DragRace extends NXTApp
 		Motors.Initialize(SensorPort.S1);
 		
 		ShortRange = new DigitalSensor(SensorAddresses.B, 0, SensorAddresses.Superpro, SensorPort.S2);
+		MediumRange = new DistanceSensor(SensorAddresses.A1, SensorAddresses.Superpro, SensorPort.S2);
 	}
 	
 	protected void Update()
@@ -34,7 +36,9 @@ public class DragRace extends NXTApp
 		}
 		
 		ShortRange.Update();
-		if (ShortRange.GetData())
+		MediumRange.Update();
+		// 1600 is just an arbitrary voltage to stop at.
+		if (ShortRange.GetData() || MediumRange.GetVoltage() > 1800)
 		{
 			Motors.Left.stop();
 			Motors.Right.stop();
