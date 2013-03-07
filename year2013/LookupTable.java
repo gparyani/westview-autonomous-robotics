@@ -55,6 +55,10 @@ public class LookupTable
 	{
 		map.add(x, y);
 	}
+	public void set(MapEntry<Double, Double> entry)
+	{
+		set(entry.key, entry.value);
+	}
 	
 	// removes a given datapoint from the lookup table.
 	// returns true if there was such a datapoint (and it was then removed).
