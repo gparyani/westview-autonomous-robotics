@@ -1,5 +1,6 @@
 package year2013.NXTApp;
 
+import year2013.LookupTable;
 import lejos.nxt.SensorPort;
 
 public class DistanceSensor extends Sensor
@@ -27,8 +28,15 @@ public class DistanceSensor extends Sensor
 	}
 	
 	// return value is in cm
-	public static double GetDistance(DistanceSensor longRangeSensor, DistanceSensor mediumRangeSensor, DigitalSensor shortRange)
+	public static double GetDistance(DistanceSensor longRangeSensor, DistanceSensor mediumRangeSensor, DigitalSensor shortRangeSensor)
 	{
-		return 0;
+		boolean shortRange = shortRangeSensor.GetData();
+		double mediumRange = mediumRangeSensor.GetVoltage();
+		double longRange = longRangeSensor.GetVoltage();
+		
+		if (shortRange)
+			return LookupTable.MediumRangeData.get(mediumRange);
+		else
+			return LookupTable.LongRangeData.get(longRange);
 	}
 }
