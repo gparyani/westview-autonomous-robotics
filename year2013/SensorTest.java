@@ -13,7 +13,7 @@ public class SensorTest extends NXTApp
 	{
 		super(50);
 		
-		//LookupTable.LoadSensorData();
+		DistanceSensor.LoadSensorData();
 		
 		A0 = new DistanceSensor(SensorAddresses.A0, SensorAddresses.Superpro, SensorPort.S2);
 		A1 = new DistanceSensor(SensorAddresses.A1, SensorAddresses.Superpro, SensorPort.S2);
