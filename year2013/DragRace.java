@@ -9,7 +9,7 @@ public class DragRace extends NXTApp
 	DigitalSensor ShortRange;
 	boolean Exit = false;
 	boolean Running = false;
-	public DragRace() throws Exception
+	public DragRace()
 	{
 		super(0);
 		
