@@ -10,6 +10,7 @@ public class DragRace extends NXTApp
 	DistanceSensor MediumRange;
 	boolean Exit = false;
 	boolean Running = false;
+	
 	public DragRace()
 	{
 		super(0);
@@ -22,12 +23,14 @@ public class DragRace extends NXTApp
 	
 	protected void Update()
 	{
-		if (!Running)
-			LCD.drawString("Press any button\nto start the\ndrag-race.", 0, 0);
-		else
+		if (Running)
 			LCD.drawString("Drag-Race\nin Progress.", 0, 0);
-		if (Button.Left.IsDown() || Button.Right.IsDown() || Button.Enter.IsDown() || Button.Escape.IsDown())
+		else
+			LCD.drawString("Press any button\nto start the\ndrag-race.", 0, 0);
+		if (Button.Left.IsDown() || Button.Right.IsDown() 
+		 || Button.Enter.IsDown() || Button.Escape.IsDown())
 		{
+			LCD.drawString("Started running...", 0, 2);
 			Running = true;
 			Motors.Left.backward();
 			Motors.Right.forward();
@@ -38,8 +41,8 @@ public class DragRace extends NXTApp
 		ShortRange.Update();
 		MediumRange.Update();
 		LCD.drawString("Medium-Range: " + MediumRange.GetVoltage(), 0, 7);
-		// 80 is just an arbitrary voltage to stop at.
-		if (Running && (ShortRange.GetData() || MediumRange.GetVoltage() > 80))
+		// 70 is just an arbitrary voltage to stop at.
+		if (Running && (ShortRange.GetData() || MediumRange.GetVoltage() > 70))
 		{
 			Motors.Left.stop();
 			Motors.Right.stop();
@@ -50,7 +53,7 @@ public class DragRace extends NXTApp
 	}
 	protected boolean ShouldExit()
 	{
-		return Exit;
+		return false;//Exit;
 	}
 	
 	public static void main(String[] args) throws Exception
