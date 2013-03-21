@@ -26,4 +26,9 @@ public class CompassSensorTest extends NXTApp
 	{
 		return false;
 	}
+	
+	public static void main(String[] args) throws InterruptedException
+	{
+		new CompassSensorTest().Run();
+	}
 }
