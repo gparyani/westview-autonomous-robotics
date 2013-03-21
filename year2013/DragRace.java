@@ -10,6 +10,7 @@ public class DragRace extends NXTApp
 	DistanceSensor MediumRange;
 	boolean Exit = false;
 	boolean Running = false;
+	boolean WaitingToExit = false;
 	
 	public DragRace()
 	{
@@ -25,36 +26,51 @@ public class DragRace extends NXTApp
 	{
 		if (Running)
 			LCD.drawString("Drag-Race\nin Progress.", 0, 0);
-		else
-			LCD.drawString("Press any button\nto start the\ndrag-race.", 0, 0);
-		if (Button.Left.IsDown() || Button.Right.IsDown() 
-		 || Button.Enter.IsDown() || Button.Escape.IsDown())
+		else if (!WaitingToExit && !Exit)
 		{
-			LCD.drawString("Started running...", 0, 2);
-			Running = true;
-			Motors.Left.backward();
-			Motors.Right.forward();
-			Motors.Front.stop();
-			Motors.Back.stop();
+			LCD.drawString("Press any button\nto start the\ndrag-race.", 0, 0);
+
+			if (Button.Left.IsDown() || Button.Right.IsDown() 
+					|| Button.Enter.IsDown() || Button.Escape.IsDown())
+			{
+				LCD.drawString("Started running...", 0, 2);
+				Running = true;
+				Motors.Left.backward();
+				Motors.Right.forward();
+				Motors.Front.stop();
+				Motors.Back.stop();
+			}
 		}
+		
 		
 		ShortRange.Update();
 		MediumRange.Update();
+		LCD.drawString("Short-Range: " + ((Boolean)ShortRange.GetData()).toString().charAt(0), 0, 6);
 		LCD.drawString("Medium-Range: " + MediumRange.GetVoltage(), 0, 7);
-		// 70 is just an arbitrary voltage to stop at.
-		if (Running && (ShortRange.GetData() || MediumRange.GetVoltage() > 70))
+		if (Running && ShortRange.GetData())
 		{
-			LCD.drawString("Stopped all motors...", 0, 2);
 			Motors.Left.stop();
 			Motors.Right.stop();
 			Motors.Front.stop();
 			Motors.Back.stop();
-			Exit = true;
+			WaitingToExit = true;
+			Running = false;
+		}
+		
+		if (WaitingToExit)
+		{
+			LCD.drawString("Press any button\nto exit.", 0, 0);
+			if (Button.Left.IsDown() || Button.Right.IsDown() 
+					|| Button.Enter.IsDown() || Button.Escape.IsDown())
+			{
+				WaitingToExit = false;
+				Exit = true;
+			}
 		}
 	}
 	protected boolean ShouldExit()
 	{
-		return false;//Exit;
+		return Exit;
 	}
 	
 	public static void main(String[] args) throws Exception
