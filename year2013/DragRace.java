@@ -44,6 +44,7 @@ public class DragRace extends NXTApp
 		// 70 is just an arbitrary voltage to stop at.
 		if (Running && (ShortRange.GetData() || MediumRange.GetVoltage() > 70))
 		{
+			LCD.drawString("Stopped all motors...", 0, 2);
 			Motors.Left.stop();
 			Motors.Right.stop();
 			Motors.Front.stop();
