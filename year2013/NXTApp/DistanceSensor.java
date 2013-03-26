@@ -93,11 +93,12 @@ public class DistanceSensor extends Sensor
 		double mediumRange = mediumRangeSensor.GetVoltage();
 		double longRange = longRangeSensor.GetVoltage();
 		
-//		if (shortRange)
-//			return MediumRangeData.get(mediumRange);
-//		else
-//			return LongRangeData.get(longRange);
-		return 0; // until we get an actual algorithm here.
+		final float CALIBRATION_MULT = 1;
+		
+		if (shortRange)
+			return 0;//MediumRangeData.get(mediumRange);
+		else
+			return CALIBRATION_MULT / mediumRange;//LongRangeData.get(longRange);
 		// take a look at http://www.pololu.com/file/download/gp2y0a21yk0f.pdf?file_id=0J85
 	}
 }
