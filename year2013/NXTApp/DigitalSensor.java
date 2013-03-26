@@ -22,8 +22,9 @@ public class DigitalSensor extends Sensor
 		this.InvertData = invert;
 	}
 	
-	protected void ProcessData(byte[] readBuffer)
+	protected void UpdateData()
 	{
+		byte[] readBuffer = this.GetReadBuffer();
 		this.Data = (readBuffer[0] & (0x01 << ReadBufferBit)) == 0;
 		
 		if (this.InvertData)

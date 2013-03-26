@@ -18,12 +18,16 @@ public abstract class Sensor extends I2CSensor
 	
 	public void Update()
 	{
-		byte[] readBuffer = new byte[2];
-		
-		this.getData(this.ReadBufferAddress, readBuffer, this.ReadBufferLength);
-		
-		ProcessData(readBuffer);
+		this.UpdateData();
 	}
 	
-	protected abstract void ProcessData(byte[] readBuffer);
+	protected byte[] GetReadBuffer()
+	{
+		byte[] readBuffer = new byte[ReadBufferLength];
+		this.getData(this.ReadBufferAddress, readBuffer, this.ReadBufferLength);
+		
+		return readBuffer;
+	}
+	
+	protected abstract void UpdateData();
 }
