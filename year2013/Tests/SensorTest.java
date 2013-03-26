@@ -38,12 +38,12 @@ public class SensorTest extends NXTApp
 		LCD.drawString("Long: " + A0.GetVoltage(), 0, 0);
 		LCD.drawString("Medium: " + A1.GetVoltage(), 0, 1);
 		LCD.drawString("Short: " + B.GetData(), 0, 2);
-		if (maxA0 != -1)
-			LCD.drawString("Max Long: " + maxA0, 0, 4);
-		if (maxA1 != -1)
-			LCD.drawString("Max Medium: " + maxA1, 0, 5);
+		//if (maxA0 != -1)
+		//	LCD.drawString("Max Long: " + maxA0, 0, 4);
+		//if (maxA1 != -1)
+		//	LCD.drawString("Max Medium: " + maxA1, 0, 5);
 		
-		LCD.drawString("Distance: " + DistanceSensor.GetDistance(A0, A1, B) + "cm", 0, 7);
+		LCD.drawString("Distance: " + DistanceSensor.GetDistance(/*A0, */A1, B) + "cm", 0, 7);
 	}
 	
 	protected boolean ShouldExit()

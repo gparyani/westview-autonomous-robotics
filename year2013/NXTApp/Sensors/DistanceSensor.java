@@ -87,11 +87,11 @@ public class DistanceSensor extends Sensor
 //	}
 	
 	// return value is in cm
-	public static double GetDistance(DistanceSensor longRangeSensor, DistanceSensor mediumRangeSensor, DigitalSensor shortRangeSensor)
+	public static double GetDistance(/*DistanceSensor longRangeSensor, */DistanceSensor mediumRangeSensor, DigitalSensor shortRangeSensor)
 	{
 		boolean shortRange = shortRangeSensor.GetData();
 		double mediumRange = mediumRangeSensor.GetVoltage();
-		double longRange = longRangeSensor.GetVoltage();
+		//double longRange = longRangeSensor.GetVoltage();
 		
 		final double CALIBRATION_MULT = 6800;
 		final double CALIBRATION_OFFSET = 0;
