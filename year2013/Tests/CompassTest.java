@@ -3,7 +3,7 @@ package year2013.Tests;
 import year2013.NXTApp.NXTApp;
 import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
-import year2013.NXTApp.CompassSensor;
+import year2013.NXTApp.Sensors.CompassSensor;
 
 public class CompassTest extends NXTApp
 {
