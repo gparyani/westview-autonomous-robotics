@@ -20,7 +20,7 @@ public class DistanceSensor extends Sensor
 		
 		//this.Voltage /= 2;
 		//this.Voltage += inputData;
-		final double INPUT_WEIGHT = .4;
+		final double INPUT_WEIGHT = .6;
 		this.Voltage = this.Voltage * (1 - INPUT_WEIGHT) + inputData * INPUT_WEIGHT;
 	}
 	
@@ -93,7 +93,7 @@ public class DistanceSensor extends Sensor
 		double mediumRange = mediumRangeSensor.GetVoltage();
 		double longRange = longRangeSensor.GetVoltage();
 		
-		final double CALIBRATION_MULT = 11000;
+		final double CALIBRATION_MULT = 6800;
 		final double CALIBRATION_OFFSET = 0;
 		
 		if (shortRange)
