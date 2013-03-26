@@ -17,6 +17,19 @@ public class DragRace extends NXTApp
 	{
 		super(0);
 		
+		DistanceSensor.calibrate(new double[] {
+			13.5,
+			28,
+			44,
+			58,
+			74,
+			91,
+			110,
+			105,
+			133,
+			155
+		});
+		
 		Motors.Initialize(SensorPort.S1);
 		
 		ShortRange = new DigitalSensor(SensorAddresses.B, 0, SensorAddresses.Superpro, SensorPort.S2);
