@@ -1,6 +1,7 @@
 package year2013;
 
 import year2013.NXTApp.*;
+import year2013.NXTApp.Sensors.*;
 import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
 
@@ -9,15 +10,24 @@ public class DragRace extends NXTApp
 	boolean Started = false;
 	boolean Exit = false;
 	
+	DigitalSensor ShortRange;
+	DistanceSensor MediumRange;
+	
 	public DragRace()
 	{
 		super(0);
 		
 		Motors.Initialize(SensorPort.S1);
+		
+		ShortRange = new DigitalSensor(SensorAddresses.B, 0, SensorAddresses.Superpro, SensorPort.S2);
+		MediumRange = new DistanceSensor(SensorAddresses.A1, SensorAddresses.Superpro, SensorPort.S2);
 	}
 	
 	protected void Update()
 	{
+		ShortRange.Update();
+		MediumRange.Update();
+		
 		if (!Started)
 		{
 			LCD.drawString("Press any button\nto start the\ndrag race.", 0, 0);
@@ -36,7 +46,8 @@ public class DragRace extends NXTApp
 		else
 		{
 			LCD.drawString("Press any button\nto end the race.", 0, 0);
-			if (Button.Left.Pressed() || Button.Right.Pressed() 
+			if (DistanceSensor.GetDistance(MediumRange, ShortRange) < 20
+					|| Button.Left.Pressed() || Button.Right.Pressed() 
 					|| Button.Enter.Pressed() || Button.Escape.Pressed())
 			{
 				Motors.Left.stop();
