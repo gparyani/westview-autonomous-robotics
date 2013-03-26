@@ -5,7 +5,7 @@ public class LeastSquares
 {
 	private LeastSquares() { }
 	
-	public FitLine fit(int[] xs, int[] ys)
+	public static FitLine fit(double[] xs, double[] ys)
 	{
 		int n = xs.length; // dataset size
 		double _x = 0,  // average x
@@ -19,7 +19,7 @@ public class LeastSquares
 		for (double y : ys) _y += y;
 		_y /= n;
 		
-		for (double x : xs) 
+		for (double x : xs)
 			sx2 += x * x;
 		
 		for (int i = 0; i < n; i++) 
@@ -31,16 +31,5 @@ public class LeastSquares
 		double offset = (_y*sx2 - _x*sxy) / (sx2 - n*_x*_x);
 		
 		return new FitLine(slope, offset);
-	}
-}
-// represents the slope and offset of a best-fit line
-class FitLine
-{
-	public double slope, offset;
-	
-	public FitLine(double slope, double offset)
-	{
-		this.slope = slope;
-		this.offset = offset;
 	}
 }
