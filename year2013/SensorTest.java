@@ -42,7 +42,7 @@ public class SensorTest extends NXTApp
 		if (maxA1 != -1)
 			LCD.drawString("Max Medium: " + maxA1, 0, 5);
 		
-		//LCD.drawString("Distance: " + DistanceSensor.GetDistance(A0, A1, B) + "cm", 0, 7);
+		LCD.drawString("Distance: " + DistanceSensor.GetDistance(A0, A1, B) + "cm", 0, 7);
 	}
 	
 	protected boolean ShouldExit()
