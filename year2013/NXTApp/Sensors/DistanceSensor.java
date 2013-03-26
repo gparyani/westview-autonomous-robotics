@@ -93,8 +93,8 @@ public class DistanceSensor extends Sensor
 		double mediumRange = mediumRangeSensor.GetVoltage();
 		double longRange = longRangeSensor.GetVoltage();
 		
-		final double CALIBRATION_MULT = 25/0.00113;
-		final double CALIBRATION_OFFSET = -15;
+		final double CALIBRATION_MULT = 11000;
+		final double CALIBRATION_OFFSET = 0;
 		
 		if (shortRange)
 			return 0;//MediumRangeData.get(mediumRange);
