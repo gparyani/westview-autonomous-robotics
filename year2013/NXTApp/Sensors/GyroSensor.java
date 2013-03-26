@@ -7,6 +7,7 @@ public class GyroSensor extends Sensor
 	private GyroDirectionFinder Gyro;
 	private double AngularAcceleration;
 	private double AngularVelocity; 
+	private double Angle;
 	
 	public GyroSensor(SensorPort port)
 	{
@@ -19,6 +20,7 @@ public class GyroSensor extends Sensor
 	{
 		this.AngularAcceleration = this.Gyro.getAngularAcceleration();
 		this.AngularVelocity = this.Gyro.getAngularVelocity();
+		this.Angle = this.Gyro.getDegrees();
 	}
 	
 	public double GetAngularAcceleration()
@@ -28,5 +30,9 @@ public class GyroSensor extends Sensor
 	public double GetAngularVelocity()
 	{
 		return this.AngularVelocity;
+	}
+	public double GetAngle()
+	{
+		return this.Angle;
 	}
 }

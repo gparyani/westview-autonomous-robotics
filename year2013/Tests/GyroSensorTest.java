@@ -1,20 +1,36 @@
 package year2013.Tests;
-import lejos.nxt.Button;
+import year2013.NXTApp.*;
+import year2013.NXTApp.Sensors.*;
 import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
-import lejos.nxt.addon.GyroSensor;
 
-public class GyroSensorTest {
+public class GyroSensorTest extends NXTApp
+{
+	GyroSensor Gyro;
+	
+	public GyroSensorTest()
+	{
+		super(50);
+		Gyro = new GyroSensor(SensorPort.S3);
+	}
+	
+	protected void Update()
+	{
+		Gyro.Update();
+		
+		LCD.clearDisplay();
+		LCD.drawString("a: " + Gyro.GetAngle(), 0, 0);
+		LCD.drawString("w: " + Gyro.GetAngularVelocity(), 0, 1);
+	}
+
+	protected boolean ShouldExit()
+	{
+		return Button.Enter.IsDown() || Button.Escape.IsDown()
+			|| Button.Left.IsDown() || Button.Right.IsDown();
+	}
 	
 	public static void main(String... args) throws Exception
 	{
-		GyroSensor sensor = new GyroSensor(SensorPort.S3);
-		while(true)
-		{
-			LCD.clearDisplay();
-			LCD.drawString("" + (sensor.getAngularVelocity() - 1023f), 0, 0);
-			if (Button.ENTER.isDown() || Button.ESCAPE.isDown()) break;
-			Thread.sleep(50);
-		}
+		new GyroSensorTest().Run();
 	}
 }
