@@ -26,13 +26,16 @@ public class GyroSensorImpl
 		{
 			while(true)
 			{
-				currentVelocity = sensor.getAngularVelocity();
+				synchronized(this)
+				{
+					currentVelocity = sensor.getAngularVelocity();
+				}
 			}
 		}
 	}
 	
 	private GyroSensor sensor;
-	private float currentVelocity;
+	private volatile float currentVelocity;
 	private Thread updateVelocity;
 	
 	/**
