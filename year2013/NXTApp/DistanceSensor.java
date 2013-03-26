@@ -1,12 +1,10 @@
 package year2013.NXTApp;
 
-import year2013.LookupTable;
-import year2013.MapEntry;
 import lejos.nxt.SensorPort;
 
 public class DistanceSensor extends Sensor
 {
-	private int Voltage;
+	private double Voltage;
 	
 	public DistanceSensor(int readBufferAddress, int superproAddress, SensorPort port)
 	{
@@ -20,11 +18,13 @@ public class DistanceSensor extends Sensor
 		int inputData = (0xff & (int) readBuffer[0]) * 4
 				+ (0xff & (int) readBuffer[1]);
 		
-		this.Voltage /= 2;
-		this.Voltage += inputData;
+		//this.Voltage /= 2;
+		//this.Voltage += inputData;
+		final double INPUT_WEIGHT = .4;
+		this.Voltage = this.Voltage * (1 - INPUT_WEIGHT) + inputData * INPUT_WEIGHT;
 	}
 	
-	public int GetVoltage()
+	public double GetVoltage()
 	{
 		return this.Voltage;
 	}
@@ -93,12 +93,13 @@ public class DistanceSensor extends Sensor
 		double mediumRange = mediumRangeSensor.GetVoltage();
 		double longRange = longRangeSensor.GetVoltage();
 		
-		final float CALIBRATION_MULT = 1;
+		final double CALIBRATION_MULT = 25/0.00113;
+		final double CALIBRATION_OFFSET = -15;
 		
 		if (shortRange)
 			return 0;//MediumRangeData.get(mediumRange);
 		else
-			return CALIBRATION_MULT / mediumRange;//LongRangeData.get(longRange);
+			return CALIBRATION_MULT / mediumRange + CALIBRATION_OFFSET;//LongRangeData.get(longRange);
 		// take a look at http://www.pololu.com/file/download/gp2y0a21yk0f.pdf?file_id=0J85
 	}
 }
