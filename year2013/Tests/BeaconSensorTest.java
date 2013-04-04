@@ -34,7 +34,11 @@ public class BeaconSensorTest extends NXTApp
 		
 		LCD.clearDisplay();
 		LCD.drawString("Mode: " + (ac ? "AC" : "DC"), 0, 0);
-		LCD.drawString("Direction: " + seeker.getDirection(), 0, 1);
+		int dir = seeker.getDirection();
+		if (dir == 0)
+			LCD.drawString("No sensor found.", 0, 1);
+		else
+			LCD.drawString("Direction: " + dir, 0, 1);
 	}
 	
 	protected boolean ShouldExit()
