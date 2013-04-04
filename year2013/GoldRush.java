@@ -14,6 +14,34 @@ public class GoldRush extends NXTApp
 	GyroSensor gyro;
 	lejos.nxt.addon.IRSeekerV2 beacon;
 	
+	private class UpdatingThread implements Runnable
+	{
+		private volatile long currentTime, originalTime;
+		
+		UpdatingThread()
+		{
+			currentTime = originalTime = System.currentTimeMillis();
+			Thread toRun = new Thread(this);
+			toRun.setDaemon(true);
+			toRun.setName("Gold Rush Timer Thread");
+			toRun.start();
+		}
+		
+		@Override
+		public void run()
+		{
+			while(true)
+			{
+					currentTime = System.currentTimeMillis();
+			}
+		}
+		
+		long getTime()
+		{
+			return currentTime - originalTime;
+		}
+	}
+	
 	public GoldRush()
 	{
 		super(50);
@@ -28,14 +56,14 @@ public class GoldRush extends NXTApp
 	{
 		shortRange.Update();
 		MediumRange.Update();
-		Gyro.Update();
+		gyro.Update();
 
 		LCD.clearDisplay();
-		LCD.drawString("Angle: " + Gyro.GetAngle(), 0, 6);
+		LCD.drawString("Angle: " + gyro.GetAngle(), 0, 6);
 		if (!Started)
 		{
 			LCD.drawString("Press any button\nto start the\ndrag race.", 0, 0);
-			Gyro.ResetAngle();
+			gyro.ResetAngle();
 
 			if (Button.Left.Pressed() || Button.Right.Pressed() 
 					|| Button.Enter.Pressed() || Button.Escape.Pressed())
@@ -71,7 +99,7 @@ public class GoldRush extends NXTApp
 	
 	private void UpdateMotors()
 	{
-		double angle = Gyro.GetAngle();
+		double angle = gyro.GetAngle();
 		Motors.Front.setPower((int)angle);
 		Motors.Back.setPower((int)angle);
 	}
@@ -83,6 +111,6 @@ public class GoldRush extends NXTApp
 	
 	public static void main(String[] args) throws Exception
 	{
-		new DragRace().Run();
+		new GoldRush().Run();
 	}
 }
