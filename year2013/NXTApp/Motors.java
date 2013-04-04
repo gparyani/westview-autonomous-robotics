@@ -1,5 +1,6 @@
 package year2013.NXTApp;
 
+import lejos.nxt.Button;
 import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
 import lejos.nxt.addon.tetrix.TetrixControllerFactory;
@@ -8,10 +9,10 @@ import lejos.nxt.addon.tetrix.TetrixMotorController;
 
 public class Motors
 {
-	private static final String MotorsOffException = "Motors are off.\nPlease turn on\nthe motors and\nthen restart\nthis program.";
+	private static final String MotorsOffException = "Motors are off.\nPlease turn on\nthe motors and\nthen press any\nbutton to retry.";
 	
 	private static boolean initialized;
-	public static TetrixEncoderMotor Front, Back, Left, Right;
+	public static NXTMotor Front, Back, Left, Right;
 	
 	public static void Initialize(SensorPort motorPort)
 	{
@@ -24,18 +25,25 @@ public class Motors
 								  c2 = factory.newMotorController();
 			// indices for the different motors--can change if the wires are redone
 			int left = 3, right = 1, front = 0, back = 2;
-			Front = getMotor(c1, c2, front);
-			Back = getMotor(c1, c2, back);
-			Left = getMotor(c1, c2, left);
-			Right = getMotor(c1, c2, right);
+			Front = new NXTMotor(getMotor(c1, c2, front));
+			Back = new NXTMotor(getMotor(c1, c2, back));
+			Left = new NXTMotor(getMotor(c1, c2, left));
+			Right = new NXTMotor(getMotor(c1, c2, right));
 			
 			initialized = true;
 		}
 		catch (Exception e)
 		{
-			LCD.clearDisplay();
-			LCD.drawString(MotorsOffException, 0, 0);
-			while (true);
+			while (true)
+			{
+				LCD.clearDisplay();
+				LCD.drawString(MotorsOffException, 0, 0);
+				
+				if (Button.LEFT.isDown() || Button.RIGHT.isDown() || Button.ENTER.isDown() || Button.ESCAPE.isDown())
+					Initialize(motorPort);
+				
+				try { Thread.sleep(50); } catch (InterruptedException e1) { }
+			}
 		}
 	}
 	
