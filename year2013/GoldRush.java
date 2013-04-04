@@ -10,17 +10,24 @@ public class GoldRush extends NXTApp
 	boolean Started = false;
 	boolean Exit = false;
 	
+	UpdatingThread timer;
 	DigitalSensor shortRange;
 	GyroSensor gyro;
-	lejos.nxt.addon.IRSeekerV2 beacon;
+	BeaconSensor beacon;
+	
+	boolean wasHit;
+	boolean backing, turning;
+	final int HIT_WAIT     = 2000,
+			  BACKING_TIME    = 1000,
+			  TURNING_TIME = 500;
 	
 	private class UpdatingThread implements Runnable
 	{
 		private volatile long currentTime, originalTime;
 		
-		UpdatingThread()
+		public UpdatingThread()
 		{
-			currentTime = originalTime = System.currentTimeMillis();
+			reset();
 			Thread toRun = new Thread(this);
 			toRun.setDaemon(true);
 			toRun.setName("Gold Rush Timer Thread");
@@ -30,13 +37,16 @@ public class GoldRush extends NXTApp
 		@Override
 		public void run()
 		{
-			while(true)
-			{
-					currentTime = System.currentTimeMillis();
-			}
+			while (true)
+				currentTime = System.currentTimeMillis();
 		}
 		
-		long getTime()
+		public void reset()
+		{
+			currentTime = originalTime = System.currentTimeMillis();
+		}
+		
+		public long getTime()
 		{
 			return currentTime - originalTime;
 		}
@@ -44,49 +54,39 @@ public class GoldRush extends NXTApp
 	
 	public GoldRush()
 	{
-		super(50);
+		super(1); // update time of 1 ms
 		
 		Motors.Initialize(SensorPort.S1);
 		
 		shortRange = new DigitalSensor(SensorAddresses.B, 0, SensorAddresses.Superpro, SensorPort.S2);
 		gyro = new GyroSensor(SensorPort.S3);
+		beacon = new BeaconSensor(SensorPort.S4, BeaconSensor.DC);
+		timer = new UpdatingThread();
+		
+		wasHit = backing = turning = false;
 	}
 	
 	protected void Update()
 	{
 		shortRange.Update();
-		MediumRange.Update();
 		gyro.Update();
 
 		LCD.clearDisplay();
-		LCD.drawString("Angle: " + gyro.GetAngle(), 0, 6);
+		LCD.drawString("Gryo Angle: " + gyro.GetAngle(), 0, 6);
+		LCD.drawString("IR Angle: " + beacon.getAngle(), 0, 7);
+		
 		if (!Started)
 		{
-			LCD.drawString("Press any button\nto start the\ndrag race.", 0, 0);
-			gyro.ResetAngle();
-
-			if (Button.Left.Pressed() || Button.Right.Pressed() 
-					|| Button.Enter.Pressed() || Button.Escape.Pressed())
-			{
-				Motors.Left.backward();
-				Motors.Right.forward();
-				Motors.Front.stop();
-				Motors.Back.stop();
-				LCD.clearDisplay();
-				Started = true;
-			}
-			
-			LCD.drawString("Dist: " + DistanceSensor.GetDistance(MediumRange, shortRange) + "cm", 0, 7);
+			startMessage();
 		}
 		else
 		{
-			LCD.drawString("Press any button\nto end the race.", 0, 0);
+			LCD.drawString("Press any button\nto end Gold Rush.", 0, 0);
 			
-			UpdateMotors();
+			tick();
 			
-			if (//DistanceSensor.GetDistance(MediumRange, ShortRange) < 20
-					/*||*/ Button.Left.Pressed() || Button.Right.Pressed() 
-					|| Button.Enter.Pressed() || Button.Escape.Pressed())
+			if (Button.Left.Pressed() || Button.Right.Pressed() || 
+				Button.Enter.Pressed() || Button.Escape.Pressed())
 			{
 				Motors.Left.stop();
 				Motors.Right.stop();
@@ -96,12 +96,108 @@ public class GoldRush extends NXTApp
 			}
 		}
 	}
-	
-	private void UpdateMotors()
+	void startMessage()
 	{
-		double angle = gyro.GetAngle();
-		Motors.Front.setPower((int)angle);
-		Motors.Back.setPower((int)angle);
+		LCD.drawString("Press any button\nto start the\nGold Rush.", 0, 0);
+		gyro.ResetAngle();
+
+		if (Button.Left.Pressed() || Button.Right.Pressed() 
+				|| Button.Enter.Pressed() || Button.Escape.Pressed())
+		{
+			Motors.Left.backward();
+			Motors.Right.forward();
+			Motors.Front.stop();
+			Motors.Back.stop();
+			LCD.clearDisplay();
+			Started = true;
+		}
+	}
+	void tick()
+	{
+		if (colliding())
+		{
+			// if we hit something, then:
+			//   reset the timer
+			//   mark that we are moving backwards
+			timer.reset();
+			wasHit = true;
+			backing = true;
+			turning = false;
+		}
+		if (wasHit)
+		{
+			// perform evasion maneuvers!
+			if (backing)
+			{
+				if (timer.getTime() >= BACKING_TIME)
+				{
+					// go to next stage: turning
+					backing = false;
+					turning = true;
+				}
+				else
+				{
+					backwards();
+				}
+			}
+			if (turning)
+			{
+				if (timer.getTime() >= BACKING_TIME + TURNING_TIME)
+				{
+					// go to next stage: forward again
+					turning = false;
+				}
+				else
+				{
+					turn();
+				}
+			}
+			if (!backing && !turning)// moving forward again
+			{
+				// third stage
+				forward();
+			}
+			
+			if (timer.getTime() >= HIT_WAIT)
+			{
+				// hit timer timed out; go for the beacon again after this.
+				wasHit = false;
+				backing = false;
+				turning = false;
+			}
+		}
+		else
+		{
+			// go for the beacon!
+			aimAtBeacon();
+			forward();
+		}
+	}
+	// move forward!
+	void forward()
+	{
+		// TODO: use motors
+	}
+	// move backwards!
+	void backwards()
+	{
+		// TODO: use motors
+	}
+	// perform the same turn every time
+	void turn()
+	{
+		// TODO: use motors
+	}
+	// turns the robot to aim at a beacon
+	void aimAtBeacon()
+	{
+		// TODO: use beacon::BeaconSensor
+	}
+	// is the robot colliding with anything?
+	boolean colliding()
+	{
+		// TODO: use short range sensors (all 4 of 'em!)
+		return shortRange.GetData();
 	}
 	
 	protected boolean ShouldExit()
