@@ -1,7 +1,7 @@
 /**
  * 
  */
-package year2013;
+package year2013.Tests;
 
 import lejos.nxt.Button;
 import lejos.nxt.LCD;
