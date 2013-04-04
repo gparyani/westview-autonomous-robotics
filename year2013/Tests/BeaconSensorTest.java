@@ -10,13 +10,14 @@ public class BeaconSensorTest extends NXTApp
 {
 	//private BeaconSensor beacon;
 	lejos.nxt.addon.IRSeekerV2 seeker;
+	boolean ac = true;
 	
 	public BeaconSensorTest()
 	{
 		super(50);
 		
 		seeker = new lejos.nxt.addon.IRSeekerV2(
-				SensorPort.S3, Mode.AC);
+				SensorPort.S4, Mode.AC);
 		
 		/*beacon = new BeaconSensor(
 				SensorAddresses.A3, 
@@ -28,8 +29,12 @@ public class BeaconSensorTest extends NXTApp
 	{
 		//beacon.Update();
 		
+		if (Button.Enter.IsDown() && !Button.Enter.WasDown())
+			seeker.setMode((ac = !ac) ? Mode.AC : Mode.DC);
+		
 		LCD.clearDisplay();
-		LCD.drawString("Direction: " + seeker.getDirection(), 0, 0);
+		LCD.drawString("Mode: " + (ac ? "AC" : "DC"), 0, 0);
+		LCD.drawString("Direction: " + seeker.getDirection(), 0, 1);
 	}
 	
 	protected boolean ShouldExit()
