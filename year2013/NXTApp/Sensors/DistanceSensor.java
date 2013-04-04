@@ -6,6 +6,22 @@ import lejos.nxt.SensorPort;
 
 public class DistanceSensor extends Sensor
 {
+	static
+	{
+		DistanceSensor.calibrate(new double[] {
+			13.5,
+			28,
+			44,
+			58,
+			74,
+			91,
+			110,
+			105,
+			133,
+			155
+		});
+	}
+	
 	private double Voltage;
 	
 	public DistanceSensor(int readBufferAddress, int superproAddress, SensorPort port)
