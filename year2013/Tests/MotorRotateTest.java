@@ -1,6 +1,6 @@
 package year2013.Tests;
 
-import year2013.Menu;
+import year2013.NXTApp.Menu;
 import lejos.nxt.Button;
 //import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;

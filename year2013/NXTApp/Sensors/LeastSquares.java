@@ -1,4 +1,4 @@
-package year2013;
+package year2013.NXTApp.Sensors;
 
 // computes best-fit line given a set of datapoints
 public class LeastSquares

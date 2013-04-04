@@ -1,4 +1,4 @@
-package year2013;
+package year2013.NXTApp;
 
 import lejos.nxt.Button;
 import lejos.nxt.LCD;

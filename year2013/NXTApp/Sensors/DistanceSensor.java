@@ -1,7 +1,5 @@
 package year2013.NXTApp.Sensors;
 
-import year2013.FitLine;
-import year2013.LeastSquares;
 import lejos.nxt.SensorPort;
 
 public class DistanceSensor extends Sensor

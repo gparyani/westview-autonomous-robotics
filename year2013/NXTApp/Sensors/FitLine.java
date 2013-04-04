@@ -1,4 +1,4 @@
-package year2013;
+package year2013.NXTApp.Sensors;
 
 //represents the slope and offset of a best-fit line
 public class FitLine
