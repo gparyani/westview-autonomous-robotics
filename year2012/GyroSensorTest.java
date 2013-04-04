@@ -9,7 +9,7 @@ public class GyroSensorTest {
 	
 	public static void main(String... args) throws Exception
 	{
-		GyroDirectionFinder finder = new GyroDirectionFinder(new GyroSensor(SensorPort.S1), true);
+		GyroDirectionFinder finder = new GyroDirectionFinder(new GyroSensor(SensorPort.S3), true);
 		finder.resetCartesianZero();
 		while((Button.ENTER.isUp() && Button.ESCAPE.isUp()))
 		{
