@@ -74,6 +74,7 @@ public class DragRaceGyroTest extends NXTApp
 	{
 		double angle = Gyro.GetAngle();
 		Motors.Front.setPower((int)angle);
+		Motors.Back.setPower((int)angle);
 	}
 	
 	protected boolean ShouldExit()
