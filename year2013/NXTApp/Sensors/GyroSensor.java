@@ -35,4 +35,9 @@ public class GyroSensor extends Sensor
 	{
 		return this.Angle;
 	}
+	
+	public void ResetAngle()
+	{
+		this.Gyro.resetCartesianZero();
+	}
 }
