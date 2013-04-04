@@ -2,7 +2,6 @@ package year2013.Tests;
 
 import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
-import lejos.nxt.addon.IRSeekerV2.Mode;
 import year2013.NXTApp.*;
 import year2013.NXTApp.Sensors.*;
 
