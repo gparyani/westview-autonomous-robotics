@@ -8,21 +8,13 @@ import year2013.NXTApp.Sensors.*;
 
 public class BeaconSensorTest extends NXTApp
 {
-	//private BeaconSensor beacon;
-	lejos.nxt.addon.IRSeekerV2 seeker;
-	boolean ac = true;
+	private BeaconSensor beacon;
 	
 	public BeaconSensorTest()
 	{
 		super(50);
 		
-		seeker = new lejos.nxt.addon.IRSeekerV2(
-				SensorPort.S4, Mode.AC);
-		
-		/*beacon = new BeaconSensor(
-				SensorAddresses.A3, 
-				SensorAddresses.Superpro, 
-				SensorPort.S2);*/
+		beacon = new BeaconSensor(SensorPort.S4, BeaconSensor.DC);
 	}
 	
 	protected void Update()
@@ -30,15 +22,15 @@ public class BeaconSensorTest extends NXTApp
 		//beacon.Update();
 		
 		if (Button.Enter.IsDown() && !Button.Enter.WasDown())
-			seeker.setMode((ac = !ac) ? Mode.AC : Mode.DC);
+			beacon.invertMode();
 		
 		LCD.clearDisplay();
-		LCD.drawString("Mode: " + (ac ? "AC" : "DC"), 0, 0);
-		int dir = seeker.getDirection();
-		if (dir == 0)
-			LCD.drawString("No sensor found.", 0, 1);
-		else
-			LCD.drawString("Direction: " + dir, 0, 1);
+		LCD.drawString("Mode: " + (beacon.getMode() ? "AC" : "DC"), 0, 0);
+		float dir = beacon.getAngle();
+		//if (dir == 0)
+		//	LCD.drawString("No sensor found.", 0, 1);
+		//else
+		LCD.drawString("Direction: " + dir, 0, 1);
 	}
 	
 	protected boolean ShouldExit()
