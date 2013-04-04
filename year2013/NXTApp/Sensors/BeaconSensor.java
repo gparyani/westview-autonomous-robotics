@@ -6,7 +6,7 @@ import lejos.nxt.addon.IRSeekerV2.Mode;
 
 public class BeaconSensor
 {
-	public final boolean
+	public static final boolean
 		AC = true,
 		DC = false;
 	private IRSeekerV2 seeker;
