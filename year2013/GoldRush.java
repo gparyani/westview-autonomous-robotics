@@ -58,6 +58,8 @@ public class GoldRush extends NXTApp
 		
 		Motors.Initialize(SensorPort.S1);
 		
+		Motors.Initialize(SensorPort.S1);
+		
 		shortRange = new DigitalSensor(SensorAddresses.B, 0, SensorAddresses.Superpro, SensorPort.S2);
 		gyro = new GyroSensor(SensorPort.S3);
 		beacon = new BeaconSensor(SensorPort.S4, BeaconSensor.DC);
@@ -176,17 +178,34 @@ public class GoldRush extends NXTApp
 	// move forward!
 	void forward()
 	{
-		// TODO: use motors
+		Motors.Left.forward();
+		Motors.Right.forward();
+		Motors.Front.stop();
+		Motors.Back.stop();
 	}
 	// move backwards!
 	void backwards()
 	{
-		// TODO: use motors
+		Motors.Left.backward();
+		Motors.Right.backward();
+		Motors.Front.stop();
+		Motors.Back.stop();
 	}
 	// perform the same turn every time
 	void turn()
 	{
-		// TODO: use motors
+		Motors.Left.stop();
+		Motors.Right.stop();
+		Motors.Front.stop();
+		Motors.Back.stop();
+	}
+	void turnLeft()
+	{
+		
+	}
+	void turnRight()
+	{
+		
 	}
 	// turns the robot to aim at a beacon
 	void aimAtBeacon()
