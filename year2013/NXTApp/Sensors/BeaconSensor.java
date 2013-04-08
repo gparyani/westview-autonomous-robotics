@@ -13,7 +13,7 @@ public class BeaconSensor
 	private boolean mode;
 	
 	public BeaconSensor(SensorPort port, boolean mode)
-	{		
+	{
 		this.mode = mode;
 		seeker = new IRSeekerV2(port, getLejosMode(mode));
 	}
