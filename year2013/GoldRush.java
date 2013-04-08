@@ -11,9 +11,10 @@ public class GoldRush extends NXTApp
 	boolean Exit = false;
 	
 	UpdatingThread timer;
-	DigitalSensor shortRange;
+	DigitalSensor[] shortRange;
 	GyroSensor gyro;
 	BeaconSensor beacon;
+	final int NUM_SHORT_RANGE = 8;
 	
 	boolean wasHit;
 	boolean backing, turning;
@@ -81,7 +82,13 @@ public class GoldRush extends NXTApp
 		
 		Motors.Left.setReverse(true);
 		
-		shortRange = new DigitalSensor(SensorAddresses.B, 0, SensorAddresses.Superpro, SensorPort.S2);
+		shortRange = new DigitalSensor[NUM_SHORT_RANGE];
+		for (int i = 0; i < NUM_SHORT_RANGE; i++)
+		{
+			shortRange[i] = new DigitalSensor(SensorAddresses.B, i,
+					SensorAddresses.Superpro, SensorPort.S2);
+		}
+		
 		gyro = new GyroSensor(SensorPort.S3);
 		beacon = new BeaconSensor(SensorPort.S4, BeaconSensor.DC);
 		timer = new UpdatingThread();
@@ -91,7 +98,8 @@ public class GoldRush extends NXTApp
 	
 	protected void Update()
 	{
-		shortRange.Update();
+		for (int i = 0; i < NUM_SHORT_RANGE; i++)
+			shortRange[i].Update();
 		gyro.Update();
 
 		LCD.clearDisplay();
@@ -242,8 +250,20 @@ public class GoldRush extends NXTApp
 	// is the robot colliding with anything?
 	boolean colliding()
 	{
-		// TODO: use short range sensors (all 4 of 'em!)
-		return shortRange.GetData();
+		boolean[] data = shortRangeData();
+		// TODO: don't use back sensors
+		for (int i = 0; i < NUM_SHORT_RANGE; i++)
+			if (data[i])
+				return true;
+		return false;
+	}
+	
+	boolean[] shortRangeData()
+	{
+		boolean[] data = new boolean[NUM_SHORT_RANGE];
+		for (int i = 0; i < NUM_SHORT_RANGE; i++)
+			data[i] = shortRange[i].GetData();
+		return data;
 	}
 	
 	protected boolean ShouldExit()
