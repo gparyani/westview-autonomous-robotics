@@ -58,6 +58,8 @@ public class GoldRush extends NXTApp
 		
 		Motors.Initialize(SensorPort.S1);
 		
+		Motors.Left.setReverse(true);
+		
 		shortRange = new DigitalSensor(SensorAddresses.B, 0, SensorAddresses.Superpro, SensorPort.S2);
 		gyro = new GyroSensor(SensorPort.S3);
 		beacon = new BeaconSensor(SensorPort.S4, BeaconSensor.DC);
