@@ -17,20 +17,23 @@ public class GoldRush extends NXTApp
 	
 	boolean wasHit;
 	boolean backing, turning;
-	final int HIT_WAIT     = 2000,
-			  BACKING_TIME    = 1000,
-			  TURNING_TIME = 500;
+	final int HIT_WAIT		= 2000,
+			  BACKING_TIME	= 1000,
+			  TURNING_TIME	= 500;
 	
-	private class UpdatingThread implements Runnable
+	private static class UpdatingThread implements Runnable
 	{
 		private volatile long currentTime, originalTime;
+		private static int instances;
+		private int instanceNumber;
 		
 		public UpdatingThread()
 		{
+			instanceNumber = ++instances;
 			reset();
 			Thread toRun = new Thread(this);
 			toRun.setDaemon(true);
-			toRun.setName("Gold Rush Timer Thread");
+			toRun.setName("Gold Rush Timer Thread " + instanceNumber);
 			toRun.start();
 		}
 		
@@ -49,6 +52,24 @@ public class GoldRush extends NXTApp
 		public long getTime()
 		{
 			return currentTime - originalTime;
+		}
+		
+		@Override
+		public boolean equals(Object o)
+		{
+			return instanceNumber == ((UpdatingThread)o).instanceNumber;
+		}
+		
+		@Override
+		public int hashCode()
+		{
+			return instanceNumber;
+		}
+		
+		@Override
+		protected void finalize()
+		{
+			instances--;
 		}
 	}
 	
