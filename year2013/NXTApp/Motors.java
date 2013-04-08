@@ -14,6 +14,14 @@ public class Motors
 	private static boolean initialized;
 	public static NXTMotor Front, Back, Left, Right;
 	
+	static
+	{
+		Front = new NXTMotor(null, false);
+		Back = new NXTMotor(null, false);
+		Left = new NXTMotor(null, false);
+		Right = new NXTMotor(null, false);
+	}
+	
 	public static void Initialize(SensorPort motorPort)
 	{
 		try
@@ -25,10 +33,10 @@ public class Motors
 								  c2 = factory.newMotorController();
 			// indices for the different motors--can change if the wires are redone
 			int left = 3, right = 1, front = 0, back = 2;
-			Front = new NXTMotor(getMotor(c1, c2, front));
-			Back = new NXTMotor(getMotor(c1, c2, back));
-			Left = new NXTMotor(getMotor(c1, c2, left));
-			Right = new NXTMotor(getMotor(c1, c2, right));
+			Front = new NXTMotor(getMotor(c1, c2, front), true);
+			Back = new NXTMotor(getMotor(c1, c2, back), true);
+			Left = new NXTMotor(getMotor(c1, c2, left), true);
+			Right = new NXTMotor(getMotor(c1, c2, right), true);
 			
 			initialized = true;
 		}
