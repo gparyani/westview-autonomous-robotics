@@ -1,13 +1,17 @@
 package year2013.Tests;
 
+import lejos.nxt.SensorPort;
 import year2013.NXTApp.Motors;
 import year2013.NXTApp.NXTApp;
 
 public class MotorTest extends NXTApp
 {
-	protected MotorTest()
+	public MotorTest()
 	{
 		super(0);
+		
+		Motors.Initialize(SensorPort.S1);
+				
 		Motors.Left.forward();
 		Motors.Right.forward();
 		Motors.Front.forward();
