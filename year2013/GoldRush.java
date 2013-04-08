@@ -17,9 +17,9 @@ public class GoldRush extends NXTApp
 	
 	boolean wasHit;
 	boolean backing, turning;
-	final int HIT_WAIT		= 2000,
-			  BACKING_TIME	= 1000,
-			  TURNING_TIME	= 500;
+	final int HIT_WAIT	   = 2000,
+			  BACKING_TIME = 1000,
+			  TURNING_TIME = 500;
 	
 	private static class UpdatingThread implements Runnable
 	{
