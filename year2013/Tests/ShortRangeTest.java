@@ -3,31 +3,33 @@ package year2013.Tests;
 import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
 import year2013.NXTApp.NXTApp;
-import year2013.NXTApp.Sensors.DigitalSensor;
+import year2013.NXTApp.Sensors.DigitalSensorArray;
 import year2013.NXTApp.Sensors.SensorAddresses;
 
 public class ShortRangeTest extends NXTApp
 {
-	DigitalSensor front, back, left, right;
+	DigitalSensorArray sensors;
 	
 	public ShortRangeTest()
 	{
 		super(50);
 		
-		front = new DigitalSensor(SensorAddresses.B, 0, SensorPort.S2);
-		back = new DigitalSensor(SensorAddresses.B, 1, SensorPort.S2);
-		left = new DigitalSensor(SensorAddresses.B, 2, SensorPort.S2);
-		right = new DigitalSensor(SensorAddresses.B, 3, SensorPort.S2);
+		sensors = new DigitalSensorArray(SensorAddresses.B, SensorPort.S2);
 	}
 	
 	public void Update()
 	{
-		front.Update(); back.Update(); left.Update(); right.Update();
+		sensors.Update();
 		
-		LCD.drawString("F: " + front.GetData(), 0, 0);
-		LCD.drawString("B: " + back.GetData(), 0, 1);
-		LCD.drawString("L: " + left.GetData(), 0, 2);
-		LCD.drawString("R: " + right.GetData(), 0, 3);
+		boolean[] data = sensors.getData();
+		LCD.drawString("FL: " + data[sensors.FrontLeft], 0, 0);
+		LCD.drawString("FR: " + data[sensors.FrontRight], 0, 0);
+		LCD.drawString("RF: " + data[sensors.RightFront], 0, 0);
+		LCD.drawString("RB: " + data[sensors.RightBack], 0, 0);
+		LCD.drawString("BR: " + data[sensors.BackRight], 0, 0);
+		LCD.drawString("BL: " + data[sensors.BackLeft], 0, 0);
+		LCD.drawString("LB: " + data[sensors.LeftBack], 0, 0);
+		LCD.drawString("LF: " + data[sensors.LeftFront], 0, 0);
 	}
 	public boolean ShouldExit()
 	{
