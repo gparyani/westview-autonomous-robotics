@@ -22,9 +22,9 @@ public class DistanceSensor extends Sensor
 	
 	private double Voltage;
 	
-	public DistanceSensor(int readBufferAddress, int superproAddress, SensorPort port)
+	public DistanceSensor(int readBufferAddress, SensorPort port)
 	{
-		super(readBufferAddress, 2, superproAddress, port);
+		super(readBufferAddress, 2, SensorAddresses.Superpro, port);
 		this.Voltage = 0;
 	}
 	

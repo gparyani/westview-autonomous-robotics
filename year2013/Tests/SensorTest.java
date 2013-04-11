@@ -16,9 +16,9 @@ public class SensorTest extends NXTApp
 		
 		//DistanceSensor.LoadSensorData();
 		
-		A0 = new DistanceSensor(SensorAddresses.A0, SensorAddresses.Superpro, SensorPort.S2);
-		A1 = new DistanceSensor(SensorAddresses.A1, SensorAddresses.Superpro, SensorPort.S2);
-		B = new DigitalSensor(SensorAddresses.B, 0, SensorAddresses.Superpro, SensorPort.S2);
+		A0 = new DistanceSensor(SensorAddresses.A0, SensorPort.S2);
+		A1 = new DistanceSensor(SensorAddresses.A1, SensorPort.S2);
+		B = new DigitalSensor(SensorAddresses.B, 0, SensorPort.S2);
 	}
 	
 	double maxA0 = -1, maxA1 = -1;

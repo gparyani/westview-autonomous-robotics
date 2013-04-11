@@ -20,8 +20,8 @@ public class DragRace extends NXTApp
 		
 		Motors.Initialize(SensorPort.S1);
 		
-		ShortRange = new DigitalSensor(SensorAddresses.B, 0, SensorAddresses.Superpro, SensorPort.S2);
-		MediumRange = new DistanceSensor(SensorAddresses.A1, SensorAddresses.Superpro, SensorPort.S2);
+		ShortRange = new DigitalSensor(SensorAddresses.B, 0, SensorPort.S2);
+		MediumRange = new DistanceSensor(SensorAddresses.A1, SensorPort.S2);
 		Gyro = new GyroSensor(SensorPort.S3);
 	}
 	

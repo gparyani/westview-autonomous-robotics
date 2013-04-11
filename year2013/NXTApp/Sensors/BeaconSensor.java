@@ -4,7 +4,7 @@ import lejos.nxt.SensorPort;
 import lejos.nxt.addon.*;
 import lejos.nxt.addon.IRSeekerV2.Mode;
 
-public class BeaconSensor
+public class BeaconSensor extends Sensor
 {
 	public static final boolean
 		AC = true,
@@ -14,9 +14,13 @@ public class BeaconSensor
 	
 	public BeaconSensor(SensorPort port, boolean mode)
 	{
+		super(-1, -1, -1, port);
+		
 		this.mode = mode;
 		seeker = new IRSeekerV2(port, getLejosMode(mode));
 	}
+
+	protected void UpdateData() { }
 	
 	private Mode getLejosMode(boolean mode)
 	{
