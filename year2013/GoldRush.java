@@ -85,8 +85,7 @@ public class GoldRush extends NXTApp
 		shortRange = new DigitalSensor[NUM_SHORT_RANGE];
 		for (int i = 0; i < NUM_SHORT_RANGE; i++)
 		{
-			shortRange[i] = new DigitalSensor(SensorAddresses.B, i,
-					SensorAddresses.Superpro, SensorPort.S2);
+			shortRange[i] = new DigitalSensor(SensorAddresses.B, i, SensorPort.S2);
 		}
 		
 		gyro = new GyroSensor(SensorPort.S3);
