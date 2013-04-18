@@ -47,10 +47,10 @@ public class Menu
 	}
 	
 	// shows a menu, and waits for the user to select an option
-	public static int show(boolean preclear, boolean postclear, String title, String... options) throws Exception
+	public static int show(boolean preclear, boolean postclear, String title, String... options)
 	{
 		if (options.length > 7)
-			throw new Exception("Only 7 options are allowed.");
+			throw new IllegalArgumentException("Only 7 options are allowed.");
 		
 		if (preclear) LCD.clear();
 		
@@ -120,7 +120,7 @@ public class Menu
 		LCD.drawChar('>', 0, cur);
 	}
 	
-	public static int show(String title, String... options) throws Exception
+	public static int show(String title, String... options)
 	{
 		return Menu.show(true, true, title, options);
 	}
