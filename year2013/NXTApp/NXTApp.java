@@ -130,7 +130,7 @@ public abstract class NXTApp
 	 * @param waitForButtonPress whether to wait for a button on the NXT to be pressed before starting.
 	 * @throws IllegalStateException if this app is already running.
 	 */
-	protected final void Run(boolean waitForButtonPress)
+	public final void Run(boolean waitForButtonPress)
 	{
 		if(runningThread != null)
 			throw new IllegalStateException("App " + instanceCode + " is already running");
@@ -151,7 +151,7 @@ public abstract class NXTApp
 	 * Starts this app. This app should not already be running.
 	 * @throws IllegalStateException if this app is already running.
 	 */
-	protected final void Run()
+	public final void Run()
 	{
 		Run(false);
 	}
@@ -159,13 +159,13 @@ public abstract class NXTApp
 	/**
 	 * This method is called when it is time for the screen to update (i.e. when the update interval time is reached). This method must do all the screen updating itself.
 	 */
-	protected abstract void Update();
+	public abstract void Update();
 	
 	/**
 	 * Checks whether this app should exit (i.e. is done executing). The {@code shutdown()} method is called when this method returns {@code true}.
 	 * @return whether this app is done with its job
 	 */
-	protected abstract boolean ShouldExit();
+	public abstract boolean ShouldExit();
 	
 	/**
 	 * Shutdown hook. Implement this if this app needs to perform a special set of steps when it shuts down. The {@code shutdown()} method in class NXTApp does nothing and returns.
