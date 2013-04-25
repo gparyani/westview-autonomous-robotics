@@ -36,7 +36,7 @@ import lejos.nxt.LCD;
  * 	{
  * 		new MyApp().Run();
  * 	}
- * }
+ * }</code></pre>
  * @author Grant Posner
  *
  */
