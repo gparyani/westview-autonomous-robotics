@@ -11,12 +11,12 @@ public class UrbanChallenge extends NXTApp
 		super(50);
 	}
 
-	protected void Update()
+	public void Update()
 	{
 		LCD.drawString("Welcome to the\nUrban Challenge!\nPress any button\nto win.", 0, 0);
 	}
 
-	protected boolean ShouldExit()
+	public boolean ShouldExit()
 	{
 		return Button.Left.IsDown() || Button.Right.IsDown() || Button.Enter.IsDown() || Button.Escape.IsDown();
 	}

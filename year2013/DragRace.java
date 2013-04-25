@@ -25,7 +25,7 @@ public class DragRace extends NXTApp
 		Gyro = new GyroSensor(SensorPort.S3);
 	}
 	
-	protected void Update()
+	public void Update()
 	{
 		ShortRange.Update();
 		MediumRange.Update();
@@ -77,7 +77,7 @@ public class DragRace extends NXTApp
 		Motors.Back.setPower((int)angle);
 	}
 	
-	protected boolean ShouldExit()
+	public boolean ShouldExit()
 	{
 		return Exit;
 	}

@@ -95,7 +95,7 @@ public class GoldRush extends NXTApp
 		wasHit = backing = turning = false;
 	}
 	
-	protected void Update()
+	public void Update()
 	{
 		for (int i = 0; i < NUM_SHORT_RANGE; i++)
 			shortRange[i].Update();
@@ -265,7 +265,7 @@ public class GoldRush extends NXTApp
 		return data;
 	}
 	
-	protected boolean ShouldExit()
+	public boolean ShouldExit()
 	{
 		return Exit;
 	}
