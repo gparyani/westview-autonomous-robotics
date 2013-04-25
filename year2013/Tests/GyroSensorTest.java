@@ -14,7 +14,7 @@ public class GyroSensorTest extends NXTApp
 		Gyro = new GyroSensor(SensorPort.S3);
 	}
 	
-	protected void Update()
+	public void Update()
 	{
 		Gyro.Update();
 		
@@ -23,7 +23,7 @@ public class GyroSensorTest extends NXTApp
 		LCD.drawString("w: " + Gyro.GetAngularVelocity(), 0, 1);
 	}
 
-	protected boolean ShouldExit()
+	public boolean ShouldExit()
 	{
 		return Button.Enter.IsDown() || Button.Escape.IsDown()
 			|| Button.Left.IsDown() || Button.Right.IsDown();

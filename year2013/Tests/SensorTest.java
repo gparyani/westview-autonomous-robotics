@@ -23,7 +23,7 @@ public class SensorTest extends NXTApp
 	
 	double maxA0 = -1, maxA1 = -1;
 	
-	protected void Update()
+	public void Update()
 	{
 		A0.Update();
 		A1.Update();
@@ -46,7 +46,7 @@ public class SensorTest extends NXTApp
 		LCD.drawString("Distance: " + DistanceSensor.GetDistance(/*A0, */A1, B) + "cm", 0, 7);
 	}
 	
-	protected boolean ShouldExit()
+	public boolean ShouldExit()
 	{
 		return Button.Escape.IsDown();
 	}

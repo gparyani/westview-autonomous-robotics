@@ -20,7 +20,7 @@ public class MotorPowerTest extends NXTApp
 		Motors.Right.forward();
 	}
 
-	protected void Update()
+	public void Update()
 	{
 		LCD.clearDisplay();
 		LCD.drawString("% Power: " + this.PowerPercent, 0, 0);
@@ -39,7 +39,7 @@ public class MotorPowerTest extends NXTApp
 		Motors.Left.setPower(this.PowerPercent);
 		Motors.Right.setPower(this.PowerPercent);
 	}
-	protected boolean ShouldExit()
+	public boolean ShouldExit()
 	{
 		return Button.Escape.IsDown();
 	}

@@ -18,8 +18,8 @@ public class MotorTest extends NXTApp
 		Motors.Back.forward();
 	}
 
-	protected void Update() { }
-	protected boolean ShouldExit()
+	public void Update() { }
+	public boolean ShouldExit()
 	{
 		if (Button.Left.IsDown() || Button.Right.IsDown() || Button.Enter.IsDown() || Button.Escape.IsDown())
 		{

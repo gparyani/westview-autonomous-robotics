@@ -16,7 +16,7 @@ public class CompassTest extends NXTApp
 		Compass = new CompassSensor(SensorPort.S3);
 	}
 	
-	protected void Update()
+	public void Update()
 	{
 		Compass.Update();
 		int degree = Compass.GetAngle();
@@ -24,7 +24,7 @@ public class CompassTest extends NXTApp
 		LCD.drawString("Deg: " + degree, 0, 0);
 	}
 	
-	protected boolean ShouldExit()
+	public boolean ShouldExit()
 	{
 		return false;
 	}

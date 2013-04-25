@@ -10,7 +10,7 @@ public class NXTAppButtonTest extends NXTApp
 		super(500);
 	}
 	
-	protected void Update()
+	public void Update()
 	{
 		LCD.clearDisplay();
 		
@@ -23,7 +23,7 @@ public class NXTAppButtonTest extends NXTApp
 		LCD.drawString("D|" + (Button.Escape.IsDown() ? "T" : "F") + " " + (Button.Escape.IsUp() ? "T" : "F") + " " + (Button.Escape.Pressed() ? "T" : "F") + " " + (Button.Escape.Released() ? "T" : "F"), 0, 5);
 		
 	}
-	protected boolean ShouldExit()
+	public boolean ShouldExit()
 	{
 		return false;
 	}

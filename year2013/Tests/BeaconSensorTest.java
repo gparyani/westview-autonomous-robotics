@@ -16,7 +16,7 @@ public class BeaconSensorTest extends NXTApp
 		beacon = new BeaconSensor(SensorPort.S4, BeaconSensor.DC);
 	}
 	
-	protected void Update()
+	public void Update()
 	{
 		//beacon.Update();
 		
@@ -32,7 +32,7 @@ public class BeaconSensorTest extends NXTApp
 		LCD.drawString("Direction: " + dir, 0, 1);
 	}
 	
-	protected boolean ShouldExit()
+	public boolean ShouldExit()
 	{
 		return Button.Escape.IsDown();
 	}
