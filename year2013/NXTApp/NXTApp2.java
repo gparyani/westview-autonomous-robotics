@@ -6,7 +6,7 @@ package year2013.NXTApp;
 import lejos.nxt.LCD;
 
 /**
- * Extended version of the NXTApp class. My fellow programmers disagreed about the implementation of the {@link NXTApp} class, so I reverted it and put my changes into a different file.
+ * Extended version of the NXTApp class.
  * @author Gaurav Paryani
  * @see NXTApp
  */
@@ -17,7 +17,9 @@ public abstract class NXTApp2 {
 	private AppThread runningThread;
 	private static int instances = 1;
 	/**
-	 * Synchronize on this field to make sure that there are no other NXTApps that run while you run. This could be used to, say, get user input.
+	 * Synchronize on this field to make sure that there are no 
+	 * other NXTApps that run while you run. This could be used 
+	 * to, say, get user input.
 	 */
 	protected static final Object lock;
 	protected static class Button
