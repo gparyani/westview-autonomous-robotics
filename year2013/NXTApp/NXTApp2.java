@@ -61,6 +61,7 @@ public abstract class NXTApp2 {
 	private class AppThread implements Runnable
 	{
 		private Thread thread;
+		private NXTApp2 app;
 		
 		AppThread()
 		{
@@ -79,7 +80,7 @@ public abstract class NXTApp2 {
 				}
 				
 				if(Thread.interrupted())
-					interrupted();
+					interrupted(app);
 				
 				try
 				{
@@ -87,7 +88,7 @@ public abstract class NXTApp2 {
 				}
 				catch (InterruptedException e)
 				{
-					interrupted();
+					interrupted(app);
 				}
 				
 				Button.Left.Update(lejos.nxt.Button.LEFT.isDown());
@@ -96,7 +97,7 @@ public abstract class NXTApp2 {
 				Button.Escape.Update(lejos.nxt.Button.ESCAPE.isDown());
 				
 				if(Thread.interrupted())
-					interrupted();
+					interrupted(app);
 			}
 			shutdown();
 		}
@@ -106,8 +107,9 @@ public abstract class NXTApp2 {
 			thread.start();
 		}
 		
-		void sendInterrupt()
+		void sendInterrupt(NXTApp2 source)
 		{
+			app = source;
 			thread.interrupt();
 		}
 	}
@@ -165,18 +167,20 @@ public abstract class NXTApp2 {
 	/**
 	 * Interrupt this app. The interrupted() method of this app is invoked.
 	 * This method waits for update() to finish before calling interrupted() when it is called during an update session and, if called during a timeout between successive updates, the timeout is stopped, this method runs, and the next update is performed without waiting any longer.
+	 * @param source who interrupted this app. Most of the time (if you're another NXTApp), you'll pass {@code this}.
 	 * @see NXTApp2#interrupted()
 	 */
-	public void interrupt()
+	public void interrupt(NXTApp2 source)
 	{
-		runningThread.sendInterrupt();
+		runningThread.sendInterrupt(source);
 	}
 	
 	/**
 	 * Method that is invoked when this NXTApp is interrupted. Implement if you want to do something when another app interrupts you.
 	 * The interrupted() method of class NXTApp2 does nothing and returns; it is an optional hook.
+	 * @param interruptSource the NXTApp2 who interrupted you
 	 */
-	protected void interrupted()
+	protected void interrupted(NXTApp2 interruptSource)
 	{
 		
 	}
