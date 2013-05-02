@@ -48,4 +48,25 @@ public class DigitalSensorArray extends Sensor
 			data[sensor] = this.sensors[sensor].GetData();
 		return data;
 	}
+	
+	public void rotateCounterClockwise()
+	{
+		DigitalSensor tFrontLeft = sensors[FrontLeft];
+		sensors[FrontLeft] = sensors[RightFront];
+		sensors[RightFront] = sensors[BackRight];
+		sensors[BackRight] = sensors[LeftBack];
+		sensors[LeftBack] = tFrontLeft;
+		
+		DigitalSensor tFrontRight = sensors[FrontRight];
+		sensors[FrontRight] = sensors[RightBack];
+		sensors[RightBack] = sensors[BackLeft];
+		sensors[BackLeft] = sensors[LeftFront];
+		sensors[LeftFront] = tFrontRight;
+	}
+	public void rotateClockwise()
+	{
+		rotateCounterClockwise();
+		rotateCounterClockwise();
+		rotateCounterClockwise(); // yay.
+	}
 }
