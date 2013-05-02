@@ -22,14 +22,14 @@ public class ShortRangeTest extends NXTApp
 		sensors.Update();
 		
 		boolean[] data = sensors.getData();
-		LCD.drawString("FL: " + data[sensors.FrontLeft], 0, 0);
-		LCD.drawString("FR: " + data[sensors.FrontRight], 0, 1);
-		LCD.drawString("RF: " + data[sensors.RightFront], 0, 2);
-		LCD.drawString("RB: " + data[sensors.RightBack], 0, 3);
-		LCD.drawString("BR: " + data[sensors.BackRight], 0, 4);
-		LCD.drawString("BL: " + data[sensors.BackLeft], 0, 5);
-		LCD.drawString("LB: " + data[sensors.LeftBack], 0, 6);
-		LCD.drawString("LF: " + data[sensors.LeftFront], 0, 7);
+		LCD.drawString("FL: " + data[sensors.FrontLeft] + " " + " ", 0, 0);
+		LCD.drawString("FR: " + data[sensors.FrontRight] + " " + " ", 0, 1);
+		LCD.drawString("RF: " + data[sensors.RightFront] + " ", 0, 2);
+		LCD.drawString("RB: " + data[sensors.RightBack] + " ", 0, 3);
+		LCD.drawString("BR: " + data[sensors.BackRight] + " ", 0, 4);
+		LCD.drawString("BL: " + data[sensors.BackLeft] + " ", 0, 5);
+		LCD.drawString("LB: " + data[sensors.LeftBack] + " ", 0, 6);
+		LCD.drawString("LF: " + data[sensors.LeftFront] + " ", 0, 7);
 	}
 	public boolean ShouldExit()
 	{
