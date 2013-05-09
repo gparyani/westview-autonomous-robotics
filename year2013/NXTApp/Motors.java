@@ -55,6 +55,20 @@ public class Motors
 		}
 	}
 	
+	public static void rotateClockwise()
+	{
+		NXTMotor front = Front;
+		Front = Left;
+		Left = Back;
+		Back = Right;
+		Right = front;
+	}
+	public static void rotateCounterClockwise()
+	{
+		for (int i = 0; i < 3; i++)
+			rotateClockwise();
+	}
+	
 	private static TetrixEncoderMotor getMotor(TetrixMotorController controller1, TetrixMotorController controller2, int motorID)
 	{
 		TetrixMotorController controller = motorID < 2 ? controller1 : controller2;
