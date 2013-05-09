@@ -85,8 +85,7 @@ public class UrbanChallenge extends NXTApp
 	
 	private boolean bothFrontSensors()
 	{
-		return shortRangeSensors.getData(DigitalSensorArray.FrontLeft)
-			&& shortRangeSensors.getData(DigitalSensorArray.FrontRight);
+		return frontLeftSensorData() && frontRightSensorData();
 	}
 	
 	private boolean leftBackSensorData()
