@@ -22,8 +22,8 @@ public class ShortRangeTest extends NXTApp
 		sensors.Update();
 		
 		boolean[] data = sensors.getData();
-		LCD.drawString("FL: " + data[sensors.FrontLeft] + " " + " ", 0, 0);
-		LCD.drawString("FR: " + data[sensors.FrontRight] + " " + " ", 0, 1);
+		LCD.drawString("FL: " + data[sensors.FrontLeft] + " ", 0, 0);
+		LCD.drawString("FR: " + data[sensors.FrontRight] + " ", 0, 1);
 		LCD.drawString("RF: " + data[sensors.RightFront] + " ", 0, 2);
 		LCD.drawString("RB: " + data[sensors.RightBack] + " ", 0, 3);
 		LCD.drawString("BR: " + data[sensors.BackRight] + " ", 0, 4);
