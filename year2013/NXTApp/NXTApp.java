@@ -9,28 +9,11 @@ public abstract class NXTApp
 		
 		public static void WaitForKeyPress()
 		{
-			while (Left.IsUp() && Right.IsUp() && Enter.IsUp() && Escape.IsUp()) ;
-		}
-		
-		public static void WaitForKeyPress(AsyncCallback callback)
-		{
-			Thread thread = new Thread(new KeyPressRunnable(callback));
-			thread.start();
-		}
-		private static class KeyPressRunnable implements Runnable
-		{
-			private AsyncCallback callback;
-			
-			public KeyPressRunnable(AsyncCallback callback)
+			while (true)
 			{
-				this.callback = callback;
-			}
-			
-			public void run()
-			{
-				while (Left.IsUp() && Right.IsUp() && Enter.IsUp() && Escape.IsUp()) ;
-				if (callback != null)
-					callback.callback();
+				updateButtons();
+				if (Left.Pressed() || Right.Pressed() || Enter.Pressed() || Escape.Pressed())
+					return;
 			}
 		}
 	}
@@ -57,11 +40,16 @@ public abstract class NXTApp
 			}
 			catch (InterruptedException e) { }
 			
-			Button.Left.Update(lejos.nxt.Button.LEFT.isDown());
-			Button.Right.Update(lejos.nxt.Button.RIGHT.isDown());
-			Button.Enter.Update(lejos.nxt.Button.ENTER.isDown());
-			Button.Escape.Update(lejos.nxt.Button.ESCAPE.isDown());
+			updateButtons();
 		}
+	}
+
+	private static void updateButtons()
+	{
+		Button.Left.Update(lejos.nxt.Button.LEFT.isDown());
+		Button.Right.Update(lejos.nxt.Button.RIGHT.isDown());
+		Button.Enter.Update(lejos.nxt.Button.ENTER.isDown());
+		Button.Escape.Update(lejos.nxt.Button.ESCAPE.isDown());
 	}
 	
 	protected abstract void Update();
