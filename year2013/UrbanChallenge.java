@@ -132,7 +132,7 @@ public class UrbanChallenge extends NXTApp
 
 	public boolean ShouldExit()
 	{
-		return Button.Left.IsDown() || Button.Right.IsDown() || Button.Enter.IsDown() || Button.Escape.IsDown();
+		return Button.Escape.IsDown();
 	}
 
 	public static void main(String[] args)
