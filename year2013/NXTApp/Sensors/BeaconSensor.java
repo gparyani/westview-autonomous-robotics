@@ -45,4 +45,37 @@ public class BeaconSensor extends Sensor
 	{
 		return seeker.getAngle();
 	}
+	
+	public IRSeekerV2 getBackingSeeker()
+	{
+		return this.seeker;
+	}
+	
+	public boolean isCloseToBeacon()
+	{
+		int highestValue = Integer.MIN_VALUE;
+		// The IRSeeker has 5 sensors: 1..5
+		for (int i = 1; i <= 5; i++)
+			highestValue = Math.max(highestValue, seeker.getSensorValue(i));
+		// 40 seemed to be the highest value when the IRSeeker was close to the beacon.
+		return highestValue >= 40;
+	}
+	public int getIndexOfMostIntensity()
+	{
+		int highestValue = Integer.MIN_VALUE, index = -1;
+		for (int i = 1; i <= 5; i++)
+		{
+			int value = seeker.getSensorValue(i);
+			if (value > highestValue)
+			{
+				highestValue = value;
+				index = i;
+			}
+		}
+		return index;
+	}
+	public int getMostIntenseSignal()
+	{
+		return seeker.getSensorValue(getIndexOfMostIntensity());
+	}
 }

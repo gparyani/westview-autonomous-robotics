@@ -8,13 +8,15 @@ import year2013.NXTApp.Sensors.*;
 public class UrbanChallenge extends NXTApp
 {
 	DigitalSensorArray shortRangeSensors;
+	BeaconSensor beaconSensor;
 	public UrbanChallenge()
 	{
 		super(50);
 		
 		shortRangeSensors = new DigitalSensorArray(SensorAddresses.B, SensorPort.S2);
+		beaconSensor = new BeaconSensor(SensorPort.S3, BeaconSensor.AC);
 		
-		LCD.drawString("Press any button\nto start the\nUrban Challenge.", 0, 0);
+		LCD.drawString("Press any button\nto start the\nUrban Challenge.\n\nMake sure that\nthe motors are\nturned on!", 0, 0);
 		Button.WaitForKeyPress();
 		LCD.clearDisplay();
 		
@@ -33,13 +35,23 @@ public class UrbanChallenge extends NXTApp
 		}
 				
 		shortRangeSensors.Update();
+		beaconSensor.Update();
+		LCD.drawInt(beaconSensor.getMostIntenseSignal(), 8, 3);
 		
-		if (bothFrontSensors())
+		/*if (bothFrontSensors())
 			this.turnRight();
 		else if (neitherLeftSensor())
 			this.turnLeft();
+		else */this.straight();
 	}
 	
+	private void straight()
+	{
+		Motors.Left.forward();
+		Motors.Right.forward();
+		Motors.Front.stop();
+		Motors.Back.stop();
+	}
 	private void turnRight()
 	{
 		this.rotateCW();
@@ -132,7 +144,15 @@ public class UrbanChallenge extends NXTApp
 
 	public boolean ShouldExit()
 	{
-		return Button.Escape.IsDown();
+		if (Button.Escape.IsDown() || beaconSensor.isCloseToBeacon())
+		{
+			Motors.Front.stop();
+			Motors.Back.stop();
+			Motors.Left.stop();
+			Motors.Right.stop();
+			return true;
+		}
+		return false;
 	}
 
 	public static void main(String[] args)
