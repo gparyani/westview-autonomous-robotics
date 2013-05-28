@@ -36,13 +36,22 @@ public class UrbanChallenge extends NXTApp
 				
 		shortRangeSensors.Update();
 		beaconSensor.Update();
-		LCD.drawInt(beaconSensor.getMostIntenseSignal(), 8, 3);
+		//LCD.drawInt(beaconSensor.getMostIntenseSignal(), 8, 3);
 		
-		/*if (bothFrontSensors())
+		if (bothFrontSensors())
 			this.turnRight();
 		else if (neitherLeftSensor())
 			this.turnLeft();
-		else */this.straight();
+		else this.straight();
+		
+		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.FrontLeft) ? 't' : 'f', 4, 3);
+		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.FrontRight) ? 't' : 'f', 5, 3);
+		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.RightFront) ? 't' : 'f', 6, 3);
+		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.RightBack) ? 't' : 'f', 7, 3);
+		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.BackRight) ? 't' : 'f', 8, 3);
+		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.BackLeft) ? 't' : 'f', 9, 3);
+		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.LeftBack) ? 't' : 'f', 10, 3);
+		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.LeftFront) ? 't' : 'f', 11, 3);
 	}
 	
 	private void straight()
