@@ -69,6 +69,14 @@ public class Motors
 			rotateClockwise();
 	}
 	
+	public static void stopAllMotors()
+	{
+		Front.stop();
+		Right.stop();
+		Back.stop();
+		Left.stop();
+	}
+	
 	private static TetrixEncoderMotor getMotor(TetrixMotorController controller1, TetrixMotorController controller2, int motorID)
 	{
 		TetrixMotorController controller = motorID < 2 ? controller1 : controller2;
