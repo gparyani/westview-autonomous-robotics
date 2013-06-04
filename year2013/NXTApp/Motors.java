@@ -57,16 +57,16 @@ public class Motors
 	
 	public static void rotateClockwise()
 	{
+		for (int i = 0; i < 3; i++)
+			rotateCounterClockwise();
+	}
+	public static void rotateCounterClockwise()
+	{
 		NXTMotor front = Front;
 		Front = Left;
 		Left = Back;
 		Back = Right;
 		Right = front;
-	}
-	public static void rotateCounterClockwise()
-	{
-		for (int i = 0; i < 3; i++)
-			rotateClockwise();
 	}
 	
 	public static void stopAllMotors()
