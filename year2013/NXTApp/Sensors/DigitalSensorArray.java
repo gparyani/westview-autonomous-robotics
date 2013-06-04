@@ -25,14 +25,14 @@ public class DigitalSensorArray extends Sensor
 		
 		this.sensors = new DigitalSensor[NUM_SENSORS];
 		
-		this.sensors[FrontLeft] = new DigitalSensor(readBufferAddress, 7, port);
-		this.sensors[FrontRight] = new DigitalSensor(readBufferAddress, 6, port);
+		this.sensors[FrontLeft] = new DigitalSensor(readBufferAddress, 1, port);
+		this.sensors[FrontRight] = new DigitalSensor(readBufferAddress, 0, port);
 		this.sensors[RightFront] = new DigitalSensor(readBufferAddress, 5, port);
 		this.sensors[RightBack] = new DigitalSensor(readBufferAddress, 4, port);
-		this.sensors[BackRight] = new DigitalSensor(readBufferAddress, 3, port);
-		this.sensors[BackLeft] = new DigitalSensor(readBufferAddress, 2, port);
-		this.sensors[LeftBack] = new DigitalSensor(readBufferAddress, 1, port);
-		this.sensors[LeftFront] = new DigitalSensor(readBufferAddress, 0, port);
+		this.sensors[BackRight] = new DigitalSensor(readBufferAddress, 7, port);
+		this.sensors[BackLeft] = new DigitalSensor(readBufferAddress, 6, port);
+		this.sensors[LeftBack] = new DigitalSensor(readBufferAddress, 3, port);
+		this.sensors[LeftFront] = new DigitalSensor(readBufferAddress, 2, port);
 	}
 	
 	protected void UpdateData()
