@@ -21,6 +21,9 @@ public class UrbanChallenge extends NXTApp
 		LCD.clearDisplay();
 		
 		Motors.Initialize(SensorPort.S1);
+		
+		Motors.Left.setReverse(true);
+		Motors.Back.setReverse(true);
 	}
 
 	public void Update()
@@ -38,11 +41,11 @@ public class UrbanChallenge extends NXTApp
 		beaconSensor.Update();
 		//LCD.drawInt(beaconSensor.getMostIntenseSignal(), 8, 3);
 		
-		if (bothFrontSensors())
+		/*if (bothFrontSensors())
 			this.turnRight();
 		else if (neitherLeftSensor())
 			this.turnLeft();
-		else this.straight();
+		else */this.straight();
 		
 		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.FrontLeft) ? 't' : 'f', 4, 3);
 		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.FrontRight) ? 't' : 'f', 5, 3);
@@ -142,7 +145,7 @@ public class UrbanChallenge extends NXTApp
 	}
 	private void strafeLeft()
 	{
-		Motors.Front.backward();
+		Motors.Front.forward();
 		Motors.Back.forward();
 	}
 	private void stopStrafeLeft()
