@@ -50,7 +50,7 @@ public class UrbanChallenge extends NXTApp
 		//Gaurav's algorithm:
 		if(bothFrontSensors())	//wait until front sensor is on
 		{
-			if(!bothLeftSensors() || !bothRightSensors())	//if both left and right sensors are off
+			if(!bothLeftSensors() && !bothRightSensors())	//if both left and right sensors are off
 			{
 				if(Math.random() < 0.5)	//decide randomly whether to turn left or right
 					turnLeft();
