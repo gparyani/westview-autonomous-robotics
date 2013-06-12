@@ -52,10 +52,11 @@ public class UrbanChallenge extends NXTApp
 		{
 			if(!bothLeftSensors() && !bothRightSensors())	//if both left and right sensors are off
 			{
-				if(Math.random() < 0.5)	//decide randomly whether to turn left or right
-					turnLeft();
-				else
-					turnRight();
+//				if(Math.random() < 0.5)	//decide randomly whether to turn left or right
+//					turnLeft();
+//				else
+//					turnRight();
+				turnLeft(); // let's just turn left, instead of being random.
 			}
 			else if(bothLeftSensors())	//if only right sensor is off
 				turnRight();	//go right
@@ -65,8 +66,14 @@ public class UrbanChallenge extends NXTApp
 				turnRight();
 				turnRight();
 			}
+			else if (!(bothLeftSensors() || bothRightSensors() || bothFrontSensors()))
+			{
+				// four-way intersection ==> always pick the same direction (I choose Left)
+				turnLeft();
+			}
 			else
 			{
+				// dead end ==> turn around
 				turnRight();
 				turnRight();
 			}
