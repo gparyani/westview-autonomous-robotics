@@ -102,6 +102,7 @@ public class GoldRush extends NXTApp
 		gyro.Update();
 
 		LCD.clearDisplay();
+		LCD.drawString("Was hit? " + (wasHit? "yes" : "no"), 0, 5);
 		LCD.drawString("Gryo Angle: " + gyro.GetAngle(), 0, 6);
 		LCD.drawString("IR Angle: " + beacon.getAngle(), 0, 7);
 		
@@ -241,8 +242,8 @@ public class GoldRush extends NXTApp
 	// turns the robot to aim at a beacon
 	void aimAtBeacon()
 	{
-		double angle = beacon.getAngle();
-		if (angle == Double.NaN) return;
+		float angle = beacon.getAngle();
+		if (angle == Float.NaN) return;
 		Motors.Front.setPower((int)angle);
 		Motors.Back.setPower((int)angle);
 	}
