@@ -15,7 +15,7 @@ public class RobotRotateTest extends NXTApp
 		super(50);
 		
 		Motors.Initialize(SensorPort.S1);
-		sensors = new DigitalSensorArray(SensorAddresses.Superpro, SensorPort.S2);
+		sensors = new DigitalSensorArray(SensorAddresses.Superpro, SensorPort.S2, SensorPort.S3);
 	}
 
 	protected void Update()

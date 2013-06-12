@@ -13,7 +13,7 @@ public class UrbanChallenge extends NXTApp
 	{
 		super(50);
 		
-		shortRangeSensors = new DigitalSensorArray(SensorAddresses.B, SensorPort.S2);
+		shortRangeSensors = new DigitalSensorArray(SensorAddresses.B, SensorPort.S2, SensorPort.S3);
 		beaconSensor = new BeaconSensor(SensorPort.S3, BeaconSensor.AC);
 		
 		LCD.drawString("Press any button\nto start the\nUrban Challenge.\n\nMake sure that\nthe motors are\nturned on!", 0, 0);

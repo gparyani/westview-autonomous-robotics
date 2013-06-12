@@ -14,7 +14,7 @@ public class ShortRangeTest extends NXTApp
 	{
 		super(50);
 		
-		sensors = new DigitalSensorArray(SensorAddresses.B, SensorPort.S2);
+		sensors = new DigitalSensorArray(SensorAddresses.B, SensorPort.S2, SensorPort.S3);
 	}
 	
 	public void Update()
