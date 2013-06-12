@@ -102,42 +102,42 @@ public class UrbanChallenge extends NXTApp
 	}
 	private void turnLeft()
 	{
-		final double MOVE_FORWARD_TIME = .1;
+//		final double MOVE_FORWARD_TIME = .1;
 		
 		this.rotateCCW();
 		
-		moveForwardForTime(MOVE_FORWARD_TIME);
-		
-		if (eitherLeftSensor())
-			return;
-		
-		// now we know that it's a u-turn
-		
-		shortRangeSensors.rotateCounterClockwise();
-
-		moveForwardForTime(MOVE_FORWARD_TIME);
-		
-		
-		this.strafeLeft();
-		{
-			while (!bothLeftSensors())
-				;
-		}
-		this.stopStrafeLeft();
+//		moveForwardForTime(MOVE_FORWARD_TIME);
+//		
+//		if (eitherLeftSensor())
+//			return;
+//		
+//		// now we know that it's a u-turn
+//		
+//		shortRangeSensors.rotateCounterClockwise();
+//
+//		moveForwardForTime(MOVE_FORWARD_TIME);
+//		
+//		
+//		this.strafeLeft();
+//		{
+//			while (!bothLeftSensors())
+//				;
+//		}
+//		this.stopStrafeLeft();
 	}
 	
 	private boolean bothLeftSensors()
 	{
 		return leftBackSensorData() && leftFrontSensorData();
 	}
-	private boolean eitherLeftSensor()
-	{
-		return leftBackSensorData() || leftFrontSensorData();
-	}
-	private boolean neitherLeftSensor()
-	{
-		return !eitherLeftSensor();
-	}
+//	private boolean eitherLeftSensor()
+//	{
+//		return leftBackSensorData() || leftFrontSensorData();
+//	}
+//	private boolean neitherLeftSensor()
+//	{
+//		return !eitherLeftSensor();
+//	}
 	
 	private boolean bothFrontSensors()
 	{
@@ -173,27 +173,27 @@ public class UrbanChallenge extends NXTApp
 		Motors.rotateCounterClockwise();
 	}
 	
-	private void moveForwardForTime(double seconds)
-	{
-		Motors.Left.forward();
-		Motors.Right.forward();
-		
-		try { Thread.sleep((long)(seconds * 1000)); }
-		catch (InterruptedException e) { }
-		
-		Motors.Left.stop();
-		Motors.Right.stop();
-	}
-	private void strafeLeft()
-	{
-		Motors.Front.forward();
-		Motors.Back.forward();
-	}
-	private void stopStrafeLeft()
-	{
-		Motors.Front.stop();
-		Motors.Back.stop();
-	}
+//	private void moveForwardForTime(double seconds)
+//	{
+//		Motors.Left.forward();
+//		Motors.Right.forward();
+//		
+//		try { Thread.sleep((long)(seconds * 1000)); }
+//		catch (InterruptedException e) { }
+//		
+//		Motors.Left.stop();
+//		Motors.Right.stop();
+//	}
+//	private void strafeLeft()
+//	{
+//		Motors.Front.forward();
+//		Motors.Back.forward();
+//	}
+//	private void stopStrafeLeft()
+//	{
+//		Motors.Front.stop();
+//		Motors.Back.stop();
+//	}
 
 	public boolean ShouldExit()
 	{
