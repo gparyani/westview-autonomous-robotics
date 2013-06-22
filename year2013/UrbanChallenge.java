@@ -41,37 +41,37 @@ public class UrbanChallenge extends NXTApp
 		beaconSensor.Update();
 		//LCD.drawInt(beaconSensor.getMostIntenseSignal(), 8, 3);
 		
-		/*if (bothFrontSensors())
+		if (bothFrontSensors())
 			this.turnRight();
 		else if (neitherLeftSensor())
 			this.turnLeft();
-		else */this.straight();
+		else this.straight();
 		
-		//Gaurav's algorithm:
-		if(bothFrontSensors())	//wait until front sensor is on
-		{
-			if(!bothLeftSensors() && !bothRightSensors())	//if both left and right sensors are off
-			{
-//				if(Math.random() < 0.5)	//decide randomly whether to turn left or right
-//					turnLeft();
-//				else
-//					turnRight();
-				turnLeft(); // let's just turn left, instead of being random.
-			}
-			else if(bothLeftSensors())	//if only right sensor is off
-				turnRight();	//go right
-			else if(bothRightSensors())	//if only left sensor is off
-				turnLeft();
-			else if (!(bothLeftSensors() || bothRightSensors() || bothFrontSensors()))
-				// four-way intersection ==> always pick the same direction (I choose Left)
-				turnLeft();
-			else
-			{
-				// dead end ==> turn around
-				turnRight();
-				turnRight();
-			}
-		}
+//		//Gaurav's algorithm:
+//		if(bothFrontSensors())	//wait until front sensor is on
+//		{
+//			if(!bothLeftSensors() && !bothRightSensors())	//if both left and right sensors are off
+//			{
+////				if(Math.random() < 0.5)	//decide randomly whether to turn left or right
+////					turnLeft();
+////				else
+////					turnRight();
+//				turnLeft(); // let's just turn left, instead of being random.
+//			}
+//			else if(bothLeftSensors())	//if only right sensor is off
+//				turnRight();	//go right
+//			else if(bothRightSensors())	//if only left sensor is off
+//				turnLeft();
+//			else if (!(bothLeftSensors() || bothRightSensors() || bothFrontSensors()))
+//				// four-way intersection ==> always pick the same direction (I choose Left)
+//				turnLeft();
+//			else
+//			{
+//				// dead end ==> turn around
+//				turnRight();
+//				turnRight();
+//			}
+//		}
 		
 		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.FrontLeft) ? 't' : 'f', 4, 3);
 		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.FrontRight) ? 't' : 'f', 5, 3);
@@ -96,52 +96,52 @@ public class UrbanChallenge extends NXTApp
 	}
 	private void turnLeft()
 	{
-//		final double MOVE_FORWARD_TIME = .1;
+		final double MOVE_FORWARD_TIME = .1;
 		
 		this.rotateCCW();
 		
-//		moveForwardForTime(MOVE_FORWARD_TIME);
-//		
-//		if (eitherLeftSensor())
-//			return;
-//		
-//		// now we know that it's a u-turn
-//		
-//		shortRangeSensors.rotateCounterClockwise();
-//
-//		moveForwardForTime(MOVE_FORWARD_TIME);
-//		
-//		
-//		this.strafeLeft();
-//		{
-//			while (!bothLeftSensors())
-//				;
-//		}
-//		this.stopStrafeLeft();
+		moveForwardForTime(MOVE_FORWARD_TIME);
+		
+		if (eitherLeftSensor())
+			return;
+		
+		// now we know that it's a u-turn
+		
+		shortRangeSensors.rotateCounterClockwise();
+
+		moveForwardForTime(MOVE_FORWARD_TIME);
+		
+		
+		this.strafeLeft();
+		{
+			while (!bothLeftSensors())
+				;
+		}
+		this.stopStrafeLeft();
 	}
 	
 	private boolean bothLeftSensors()
 	{
 		return leftBackSensorData() && leftFrontSensorData();
 	}
-//	private boolean eitherLeftSensor()
-//	{
-//		return leftBackSensorData() || leftFrontSensorData();
-//	}
-//	private boolean neitherLeftSensor()
-//	{
-//		return !eitherLeftSensor();
-//	}
+	private boolean eitherLeftSensor()
+	{
+		return leftBackSensorData() || leftFrontSensorData();
+	}
+	private boolean neitherLeftSensor()
+	{
+		return !eitherLeftSensor();
+	}
 	
 	private boolean bothFrontSensors()
 	{
 		return frontLeftSensorData() && frontRightSensorData();
 	}
 	
-	private boolean bothRightSensors()
-	{
-		return rightFrontSensorData() && rightBackSensorData();
-	}
+//	private boolean bothRightSensors()
+//	{
+//		return rightFrontSensorData() && rightBackSensorData();
+//	}
 	
 	private boolean leftBackSensorData()
 	{ return shortRangeSensors.getData(DigitalSensorArray.LeftBack); }
@@ -151,10 +151,10 @@ public class UrbanChallenge extends NXTApp
 	{ return shortRangeSensors.getData(DigitalSensorArray.FrontLeft); }
 	private boolean frontRightSensorData()
 	{ return shortRangeSensors.getData(DigitalSensorArray.FrontRight); }
-	private boolean rightFrontSensorData()
-	{ return shortRangeSensors.getData(DigitalSensorArray.RightFront); }
-	private boolean rightBackSensorData()
-	{ return shortRangeSensors.getData(DigitalSensorArray.RightBack); }
+//	private boolean rightFrontSensorData()
+//	{ return shortRangeSensors.getData(DigitalSensorArray.RightFront); }
+//	private boolean rightBackSensorData()
+//	{ return shortRangeSensors.getData(DigitalSensorArray.RightBack); }
 	
 	private void rotateCW()
 	{
@@ -167,27 +167,27 @@ public class UrbanChallenge extends NXTApp
 		Motors.rotateCounterClockwise();
 	}
 	
-//	private void moveForwardForTime(double seconds)
-//	{
-//		Motors.Left.forward();
-//		Motors.Right.forward();
-//		
-//		try { Thread.sleep((long)(seconds * 1000)); }
-//		catch (InterruptedException e) { }
-//		
-//		Motors.Left.stop();
-//		Motors.Right.stop();
-//	}
-//	private void strafeLeft()
-//	{
-//		Motors.Front.forward();
-//		Motors.Back.forward();
-//	}
-//	private void stopStrafeLeft()
-//	{
-//		Motors.Front.stop();
-//		Motors.Back.stop();
-//	}
+	private void moveForwardForTime(double seconds)
+	{
+		Motors.Left.forward();
+		Motors.Right.forward();
+		
+		try { Thread.sleep((long)(seconds * 1000)); }
+		catch (InterruptedException e) { }
+		
+		Motors.Left.stop();
+		Motors.Right.stop();
+	}
+	private void strafeLeft()
+	{
+		Motors.Front.forward();
+		Motors.Back.forward();
+	}
+	private void stopStrafeLeft()
+	{
+		Motors.Front.stop();
+		Motors.Back.stop();
+	}
 
 	public boolean ShouldExit()
 	{
