@@ -1,6 +1,7 @@
 package year2013.NXTApp;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class NXTApp
 {
@@ -56,7 +57,28 @@ public abstract class NXTApp
 	
 	private static String[] splitSpaces(String strToSplit)
 	{
-		 return new String[0];
+		List<String> parts = new ArrayList<String>();
+		
+		String part = "";
+		for (char c : strToSplit.toCharArray())
+		{
+			if (c != ' ')
+			{
+				part += c;
+			}
+			else
+			{
+				if (part.length() > 0)
+				{
+					parts.add(part);
+					part = "";
+				}
+			}
+		}
+		if (part.length() > 0)
+			parts.add(part);
+		
+		return (String[])parts.toArray();
 	}
 	// note: none of the words may be more than 16 characters long.
 	public static String splitString(String str)
