@@ -30,8 +30,7 @@ public class UrbanChallenge extends NXTApp
 		
 		Motors.Initialize(SensorPort.S1);
 		
-		Motors.Left.setReverse(true);
-		Motors.Back.setReverse(true);
+		setMotorDirections();
 	}
 
 	void printDirection()
@@ -47,6 +46,13 @@ public class UrbanChallenge extends NXTApp
 			case DigitalSensorArray.HalfCircleFromOriginal: System.out.println("v"); break;
 			case DigitalSensorArray.CCWFromOriginal: System.out.println("<"); break;
 		}
+	}
+	void setMotorDirections()
+	{
+		Motors.Front.setReverse(false);
+		Motors.Right.setReverse(false);
+		Motors.Left.setReverse(true);
+		Motors.Back.setReverse(true);
 	}
 	public void Update()
 	{
@@ -116,7 +122,7 @@ public class UrbanChallenge extends NXTApp
 	}
 	private void turnLeft()
 	{
-		final double MOVE_FORWARD_TIME = 5;
+		final double MOVE_FORWARD_TIME = 1;
 		
 		Motors.stopAllMotors();
 		System.out.println("Turned left.");
@@ -145,7 +151,10 @@ public class UrbanChallenge extends NXTApp
 		this.strafeLeft();
 		{
 			while (!bothLeftSensors())
-				;
+			{
+				System.out.println("LF: " + (leftFrontSensorData() ? 'T' : 'F') +  ", LB: " + (leftBackSensorData() ? 'T' : 'F'));
+				shortRangeSensors.Update();
+			}
 		}
 		this.stopStrafeLeft();
 	}
@@ -191,6 +200,7 @@ public class UrbanChallenge extends NXTApp
 		shortRangeSensors.rotateClockwise();
 		Motors.rotateClockwise();
 //		maze.move(Movement.TurnRight);
+		setMotorDirections();
 		numTurns++;
 		System.out.println("Rotated CW.");
 	}
@@ -199,6 +209,7 @@ public class UrbanChallenge extends NXTApp
 		shortRangeSensors.rotateCounterClockwise();
 		Motors.rotateCounterClockwise();
 //		maze.move(Movement.TurnLeft);
+		setMotorDirections();
 		numTurns++;
 		System.out.println("Rotated CCW.");
 	}

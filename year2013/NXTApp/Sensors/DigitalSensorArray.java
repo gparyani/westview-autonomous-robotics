@@ -59,12 +59,12 @@ public class DigitalSensorArray extends Sensor
 		return this.sensors[sensorIndex].GetData();
 	}
 
-	public void rotateClockwise()
+	public void rotateCounterClockwise()
 	{
 		for (int i = 0; i < 3; i++)
-			rotateCounterClockwise(); // yay.
+			rotateClockwise(); // yay.
 	}
-	public void rotateCounterClockwise()
+	public void rotateClockwise()
 	{
 		DigitalSensor tFrontLeft = sensors[FrontLeft];
 		sensors[FrontLeft] = sensors[RightFront];
@@ -78,7 +78,10 @@ public class DigitalSensorArray extends Sensor
 		sensors[BackLeft] = sensors[LeftFront];
 		sensors[LeftFront] = tFrontRight;
 		
-		this.direction = (this.direction + 3) % 4;
+//		this.direction--;
+//		if (this.direction < 0)
+//			this.direction += 4;
+		this.direction = (this.direction + 1) % 4;
 	}
 	
 	public int getDirection()

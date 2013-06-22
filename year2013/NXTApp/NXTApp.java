@@ -19,6 +19,23 @@ public abstract class NXTApp
 					return;
 			}
 		}
+		
+		public static boolean anyAreDown()
+		{
+			return Left.IsDown() || Right.IsDown() || Enter.IsDown() || Escape.IsDown();
+		}
+		public static boolean anyAreUp()
+		{
+			return Left.IsUp() || Right.IsUp() || Enter.IsUp() || Escape.IsUp();
+		}
+		public static boolean anyWerePressed()
+		{
+			return Left.Pressed() || Right.Pressed() || Enter.Pressed() || Escape.Pressed();
+		}
+		public static boolean anyWereReleased()
+		{
+			return Left.Released() || Right.Released() || Enter.Released() || Escape.Released();
+		}
 	}
 	
 	protected NXTApp(int updateInterval)
@@ -78,12 +95,15 @@ public abstract class NXTApp
 		if (part.length() > 0)
 			parts.add(part);
 		
-		return (String[])parts.toArray();
+		String[] result = new String[parts.size()];
+		for (int i = 0; i < parts.size(); i++)
+			result[i] = parts.get(i);
+		return result;
 	}
 	// note: none of the words may be more than 16 characters long.
 	public static String splitString(String str)
 	{
-		String[] words = str.replace('\n', ' ').split(" ");
+		String[] words = splitSpaces(str.replace('\n', ' '));
 		int currentLine = 0;
 		String result = "";
 		boolean firstWordOnLine = true;
