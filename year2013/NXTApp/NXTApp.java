@@ -1,5 +1,7 @@
 package year2013.NXTApp;
 
+import java.util.ArrayList;
+
 public abstract class NXTApp
 {
 	private int UpdateInterval;
@@ -52,6 +54,10 @@ public abstract class NXTApp
 		Button.Escape.Update(lejos.nxt.Button.ESCAPE.isDown());
 	}
 	
+	private static String[] splitSpaces(String strToSplit)
+	{
+		 return new String[0];
+	}
 	// note: none of the words may be more than 16 characters long.
 	public static String splitString(String str)
 	{

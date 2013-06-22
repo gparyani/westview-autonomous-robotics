@@ -6,7 +6,8 @@ import lejos.nxt.addon.tetrix.TetrixEncoderMotor;
 
 public class NXTMotor
 {
-	private static final String MotorsOffException = "Motors are off.\nPlease turn on\nthe motors and\nthen restart\nthis program.";
+	private static final String MotorsOffException = NXTApp.splitString(
+			"Motors are off. Please turn on the motors and then restart this program.");
 	
 	public static final int FULL_POWER = 100;
 	
@@ -22,13 +23,19 @@ public class NXTMotor
 	public void setReverse(boolean reverse)
 	{
 		if (!motorsInitialized)
+		{
 			this.showMotorsOffException();
+			return;
+		}
 		motor.setReverse(reverse);
 	}
 	public void forward()
 	{
 		if (!motorsInitialized)
+		{
 			this.showMotorsOffException();
+			return;
+		}
 		motor.setPower(FULL_POWER);
 		motor.forward();
 	}
@@ -43,7 +50,10 @@ public class NXTMotor
 	public void backward()
 	{
 		if (!motorsInitialized)
+		{
 			this.showMotorsOffException();
+			return;
+		}
 		motor.setPower(FULL_POWER);
 		motor.backward();
 	}
@@ -58,19 +68,28 @@ public class NXTMotor
 	public void stop()
 	{
 		if (!motorsInitialized)
+		{
 			this.showMotorsOffException();
+			return;
+		}
 		motor.stop();
 	}
 	public void floatToStop()
 	{
 		if (!motorsInitialized)
+		{
 			this.showMotorsOffException();
+			return;
+		}
 		motor.flt();
 	}
 	public void setPower(int power)
 	{
 		if (!motorsInitialized)
+		{
 			this.showMotorsOffException();
+			return;
+		}
 		
 		if (power > FULL_POWER) power = FULL_POWER;
 		if (power < -FULL_POWER) power = -FULL_POWER;
@@ -83,15 +102,10 @@ public class NXTMotor
 	
 	private void showMotorsOffException()
 	{
+		LCD.clearDisplay();
+		LCD.drawString(MotorsOffException, 0, 0);
 		while (true)
-		{
-			LCD.clearDisplay();
-			LCD.drawString(MotorsOffException, 0, 0);
-			
 			if (Button.LEFT.isDown() || Button.RIGHT.isDown() || Button.ENTER.isDown() || Button.ESCAPE.isDown())
 				break;
-			
-			try { Thread.sleep(50); } catch (InterruptedException e1) { }
-		}
 	}
 }
