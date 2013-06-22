@@ -52,6 +52,38 @@ public abstract class NXTApp
 		Button.Escape.Update(lejos.nxt.Button.ESCAPE.isDown());
 	}
 	
+	// note: none of the words may be more than 16 characters long.
+	public static String splitString(String str)
+	{
+		String[] words = str.replace('\n', ' ').split(" ");
+		int currentLine = 0;
+		String result = "";
+		boolean firstWordOnLine = true;
+		for (String word : words)
+		{
+			if (firstWordOnLine)
+			{
+				result += word;
+				currentLine += word.length();
+				firstWordOnLine = false;
+			}
+			else
+			{
+				if (currentLine + 1 + word.length() <= 16)
+				{
+					result += " " + word;
+					currentLine += 1 + word.length();
+				}
+				else
+				{
+					result += "\n" + word;
+					currentLine = word.length();
+				}
+			}
+		}
+		return result;
+	}
+	
 	protected abstract void Update();
 	protected abstract boolean ShouldExit();
 }

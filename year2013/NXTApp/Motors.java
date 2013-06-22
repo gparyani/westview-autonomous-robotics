@@ -9,7 +9,8 @@ import lejos.nxt.addon.tetrix.TetrixMotorController;
 
 public class Motors
 {
-	private static final String MotorsOffException = "Motors are off.\nPlease turn on\nthe motors and\nthen press any\nbutton to retry.";
+	private static final String MotorsOffException = NXTApp.splitString(
+			"Motors are off. Please turn on the motors and then press any button to retry.");
 	
 	private static boolean initialized;
 	public static NXTMotor Front, Back, Left, Right;
@@ -22,33 +23,44 @@ public class Motors
 		Right = new NXTMotor(null, false);
 	}
 	
+	private static void _initialize(SensorPort motorPort)
+	{
+		if (initialized) return;
+		
+		TetrixControllerFactory factory = new TetrixControllerFactory(motorPort);
+		TetrixMotorController c1 = factory.newMotorController(),
+							  c2 = factory.newMotorController();
+		// indices for the different motors--can change if the wires are redone
+		int left = 3, right = 1, front = 0, back = 2;
+		Front = new NXTMotor(getMotor(c1, c2, front), true);
+		Back = new NXTMotor(getMotor(c1, c2, back), true);
+		Left = new NXTMotor(getMotor(c1, c2, left), true);
+		Right = new NXTMotor(getMotor(c1, c2, right), true);
+		
+		initialized = true;
+	}
 	public static void Initialize(SensorPort motorPort)
 	{
 		try
 		{
-			if (initialized) return;
-			
-			TetrixControllerFactory factory = new TetrixControllerFactory(motorPort);
-			TetrixMotorController c1 = factory.newMotorController(),
-								  c2 = factory.newMotorController();
-			// indices for the different motors--can change if the wires are redone
-			int left = 3, right = 1, front = 0, back = 2;
-			Front = new NXTMotor(getMotor(c1, c2, front), true);
-			Back = new NXTMotor(getMotor(c1, c2, back), true);
-			Left = new NXTMotor(getMotor(c1, c2, left), true);
-			Right = new NXTMotor(getMotor(c1, c2, right), true);
-			
-			initialized = true;
+			_initialize(motorPort);
 		}
 		catch (Exception e)
 		{
+			LCD.clearDisplay();
+			LCD.drawString(MotorsOffException, 0, 0);
 			while (true)
 			{
-				LCD.clearDisplay();
-				LCD.drawString(MotorsOffException, 0, 0);
-				
 				if (Button.LEFT.isDown() || Button.RIGHT.isDown() || Button.ENTER.isDown() || Button.ESCAPE.isDown())
-					Initialize(motorPort);
+				{
+					try
+					{
+						_initialize(motorPort);
+						LCD.clearDisplay();
+						break;
+					}
+					catch (Exception e2) { }					
+				}
 				
 				try { Thread.sleep(50); } catch (InterruptedException e1) { }
 			}

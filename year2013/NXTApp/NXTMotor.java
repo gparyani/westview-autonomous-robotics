@@ -32,12 +32,28 @@ public class NXTMotor
 		motor.setPower(FULL_POWER);
 		motor.forward();
 	}
+	public void forward(int power)
+	{
+		power = Math.abs(power);
+		if (power > FULL_POWER)
+			power = FULL_POWER;
+		
+		this.setPower(power);
+	}
 	public void backward()
 	{
 		if (!motorsInitialized)
 			this.showMotorsOffException();
 		motor.setPower(FULL_POWER);
 		motor.backward();
+	}
+	public void backward(int power)
+	{
+		power = Math.abs(power);
+		if (power > FULL_POWER)
+			power = FULL_POWER;
+		
+		this.setPower(-power);
 	}
 	public void stop()
 	{

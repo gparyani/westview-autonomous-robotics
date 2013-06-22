@@ -4,13 +4,17 @@ import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
 import year2013.NXTApp.*;
 import year2013.NXTApp.Sensors.*;
-import year2013.maze.*;
+//import year2013.maze.*;
 
 public class UrbanChallenge extends NXTApp
 {
+	final float POWER_FRACTION = .5f;
+	final int MOTOR_POWER = (int)(NXTMotor.FULL_POWER * POWER_FRACTION);
+	
 	DigitalSensorArray shortRangeSensors;
 	BeaconSensor beaconSensor;
-	Maze maze;
+//	Maze maze;
+	int numTurns = 0;
 	
 	public UrbanChallenge()
 	{
@@ -18,7 +22,7 @@ public class UrbanChallenge extends NXTApp
 		
 		shortRangeSensors = new DigitalSensorArray(SensorAddresses.B, SensorPort.S2, SensorPort.S3);
 		beaconSensor = new BeaconSensor(SensorPort.S3, BeaconSensor.AC);
-		maze = new Maze();
+//		maze = new Maze();
 		
 		LCD.drawString("Press any button\nto start the\nUrban Challenge.\n\nMake sure that\nthe motors are\nturned on!", 0, 0);
 		Button.WaitForKeyPress();
@@ -30,16 +34,25 @@ public class UrbanChallenge extends NXTApp
 		Motors.Back.setReverse(true);
 	}
 
-	public void Update()
+	void printDirection()
 	{
-		LCD.clearDisplay();
 		switch (shortRangeSensors.getDirection())
 		{
-			case DigitalSensorArray.OriginalDir: LCD.drawChar('^', 8, 0); break;
-			case DigitalSensorArray.CWFromOriginal: LCD.drawChar('>', 15, 4); break;
-			case DigitalSensorArray.HalfCircleFromOriginal: LCD.drawChar('v', 8, 7); break;
-			case DigitalSensorArray.CCWFromOriginal: LCD.drawChar('<', 0, 4); break;
+//			case DigitalSensorArray.OriginalDir: LCD.drawChar('^', 8, 0); break;
+//			case DigitalSensorArray.CWFromOriginal: LCD.drawChar('>', 15, 4); break;
+//			case DigitalSensorArray.HalfCircleFromOriginal: LCD.drawChar('v', 8, 7); break;
+//			case DigitalSensorArray.CCWFromOriginal: LCD.drawChar('<', 0, 4); break;
+			case DigitalSensorArray.OriginalDir: System.out.println("^"); break;
+			case DigitalSensorArray.CWFromOriginal: System.out.println(">"); break;
+			case DigitalSensorArray.HalfCircleFromOriginal: System.out.println("v"); break;
+			case DigitalSensorArray.CCWFromOriginal: System.out.println("<"); break;
 		}
+	}
+	public void Update()
+	{
+//		LCD.clearDisplay();
+		printDirection();
+//		LCD.drawString("# Turns: " + numTurns, 2, 3);
 				
 		shortRangeSensors.Update();
 		beaconSensor.Update();
@@ -77,45 +90,58 @@ public class UrbanChallenge extends NXTApp
 //			}
 //		}
 		
-		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.FrontLeft) ? 't' : 'f', 4, 3);
-		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.FrontRight) ? 't' : 'f', 5, 3);
-		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.RightFront) ? 't' : 'f', 6, 3);
-		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.RightBack) ? 't' : 'f', 7, 3);
-		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.BackRight) ? 't' : 'f', 8, 3);
-		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.BackLeft) ? 't' : 'f', 9, 3);
-		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.LeftBack) ? 't' : 'f', 10, 3);
-		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.LeftFront) ? 't' : 'f', 11, 3);
+//		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.FrontLeft) ? 't' : 'f', 4, 3);
+//		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.FrontRight) ? 't' : 'f', 5, 3);
+//		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.RightFront) ? 't' : 'f', 6, 3);
+//		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.RightBack) ? 't' : 'f', 7, 3);
+//		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.BackRight) ? 't' : 'f', 8, 3);
+//		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.BackLeft) ? 't' : 'f', 9, 3);
+//		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.LeftBack) ? 't' : 'f', 10, 3);
+//		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.LeftFront) ? 't' : 'f', 11, 3);
 	}
 	
 	private void straight()
 	{
-		Motors.Left.forward();
-		Motors.Right.forward();
+		Motors.Left.forward(MOTOR_POWER);
+		Motors.Right.forward(MOTOR_POWER);
 		Motors.Front.stop();
 		Motors.Back.stop();
 	}
 	private void turnRight()
 	{
+		Motors.stopAllMotors();
 		this.rotateCW();
+		System.out.println("Turned right.");
+		printDirection();
 	}
 	private void turnLeft()
 	{
-		final double MOVE_FORWARD_TIME = .1;
+		final double MOVE_FORWARD_TIME = 5;
 		
+		Motors.stopAllMotors();
+		System.out.println("Turned left.");
 		this.rotateCCW();
+		printDirection();
 		
+		System.out.println("Moving forward.");
 		moveForwardForTime(MOVE_FORWARD_TIME);
 		
+		System.out.println("Left Sensors: " + (eitherLeftSensor() ? "t" : "f"));
 		if (eitherLeftSensor())
 			return;
 		
 		// now we know that it's a u-turn
 		
+		System.out.println("U-Turn!");
+		
+		System.out.println("Turning left.");
 		this.rotateCCW();
+		printDirection();
 
+		System.out.println("Moving forward.");
 		moveForwardForTime(MOVE_FORWARD_TIME);
 		
-		
+		System.out.println("Strafing left.");
 		this.strafeLeft();
 		{
 			while (!bothLeftSensors())
@@ -164,19 +190,23 @@ public class UrbanChallenge extends NXTApp
 	{
 		shortRangeSensors.rotateClockwise();
 		Motors.rotateClockwise();
-		maze.move(Movement.TurnRight);
+//		maze.move(Movement.TurnRight);
+		numTurns++;
+		System.out.println("Rotated CW.");
 	}
 	private void rotateCCW()
 	{
 		shortRangeSensors.rotateCounterClockwise();
 		Motors.rotateCounterClockwise();
-		maze.move(Movement.TurnLeft);
+//		maze.move(Movement.TurnLeft);
+		numTurns++;
+		System.out.println("Rotated CCW.");
 	}
 	
 	private void moveForwardForTime(double seconds)
 	{
-		Motors.Left.forward();
-		Motors.Right.forward();
+		Motors.Left.forward(MOTOR_POWER);
+		Motors.Right.forward(MOTOR_POWER);
 		
 		try { Thread.sleep((long)(seconds * 1000)); }
 		catch (InterruptedException e) { }
@@ -186,8 +216,8 @@ public class UrbanChallenge extends NXTApp
 	}
 	private void strafeLeft()
 	{
-		Motors.Front.forward();
-		Motors.Back.forward();
+		Motors.Front.forward(MOTOR_POWER);
+		Motors.Back.forward(MOTOR_POWER);
 	}
 	private void stopStrafeLeft()
 	{
