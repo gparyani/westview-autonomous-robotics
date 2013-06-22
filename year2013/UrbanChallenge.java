@@ -4,17 +4,21 @@ import lejos.nxt.LCD;
 import lejos.nxt.SensorPort;
 import year2013.NXTApp.*;
 import year2013.NXTApp.Sensors.*;
+import year2013.maze.*;
 
 public class UrbanChallenge extends NXTApp
 {
 	DigitalSensorArray shortRangeSensors;
 	BeaconSensor beaconSensor;
+	Maze maze;
+	
 	public UrbanChallenge()
 	{
 		super(50);
 		
 		shortRangeSensors = new DigitalSensorArray(SensorAddresses.B, SensorPort.S2, SensorPort.S3);
 		beaconSensor = new BeaconSensor(SensorPort.S3, BeaconSensor.AC);
+		maze = new Maze();
 		
 		LCD.drawString("Press any button\nto start the\nUrban Challenge.\n\nMake sure that\nthe motors are\nturned on!", 0, 0);
 		Button.WaitForKeyPress();
@@ -107,7 +111,7 @@ public class UrbanChallenge extends NXTApp
 		
 		// now we know that it's a u-turn
 		
-		shortRangeSensors.rotateCounterClockwise();
+		this.rotateCCW();
 
 		moveForwardForTime(MOVE_FORWARD_TIME);
 		
@@ -160,11 +164,13 @@ public class UrbanChallenge extends NXTApp
 	{
 		shortRangeSensors.rotateClockwise();
 		Motors.rotateClockwise();
+		maze.move(Movement.TurnRight);
 	}
 	private void rotateCCW()
 	{
 		shortRangeSensors.rotateCounterClockwise();
 		Motors.rotateCounterClockwise();
+		maze.move(Movement.TurnLeft);
 	}
 	
 	private void moveForwardForTime(double seconds)
