@@ -15,6 +15,7 @@ public class UrbanChallenge extends NXTApp
 	BeaconSensor beaconSensor;
 //	Maze maze;
 	int numTurns = 0;
+	boolean useAlg1;
 	
 	public UrbanChallenge()
 	{
@@ -24,9 +25,32 @@ public class UrbanChallenge extends NXTApp
 		beaconSensor = new BeaconSensor(SensorPort.S3, BeaconSensor.AC);
 //		maze = new Maze();
 		
-		LCD.drawString("Press any button\nto start the\nUrban Challenge.\n\nMake sure that\nthe motors are\nturned on!", 0, 0);
-		Button.WaitForKeyPress();
-		LCD.clearDisplay();
+//		LCD.drawString("Press any button\nto start the\nUrban Challenge.\n\nMake sure that\nthe motors are\nturned on!", 0, 0);
+//		Button.WaitForKeyPress();
+//		LCD.clearDisplay();
+		
+		System.out.println("Please select\nyour algorithm:\nLeft for Posner\nRight for Gaurav");
+		System.out.println("Back to Exit");
+		boolean validButtonPressed = true;
+		do
+		{
+			switch(lejos.nxt.Button.waitForAnyPress())
+			{
+				case 1:
+					validButtonPressed = false;
+					break;
+				case 2:
+					useAlg1 = validButtonPressed = true;
+					break;
+				case 4:
+					useAlg1 = false;
+					validButtonPressed = true;
+					break;
+				case 8:
+					System.exit(1);
+			}
+		}
+		while(!validButtonPressed);
 		
 		Motors.Initialize(SensorPort.S1);
 		
@@ -54,6 +78,7 @@ public class UrbanChallenge extends NXTApp
 		Motors.Left.setReverse(true);
 		Motors.Back.setReverse(true);
 	}
+	
 	public void Update()
 	{
 //		LCD.clearDisplay();
@@ -64,46 +89,71 @@ public class UrbanChallenge extends NXTApp
 		beaconSensor.Update();
 		//LCD.drawInt(beaconSensor.getMostIntenseSignal(), 8, 3);
 		
+		if(useAlg1)
+			algorithm1();
+		else
+			algorithm2();
+		
+//		displaySensorValues();
+	}
+	/**
+	 * Implements Grant and Jacob's left-wall-following algorithm.
+	 */
+	private void algorithm1()
+	{
 		if (bothFrontSensors())
-			this.turnRight();
+			turnRight();
 		else if (neitherLeftSensor())
-			this.turnLeft();
-		else this.straight();
-		
-//		//Gaurav's algorithm:
-//		if(bothFrontSensors())	//wait until front sensor is on
-//		{
-//			if(!bothLeftSensors() && !bothRightSensors())	//if both left and right sensors are off
-//			{
-////				if(Math.random() < 0.5)	//decide randomly whether to turn left or right
-////					turnLeft();
-////				else
-////					turnRight();
-//				turnLeft(); // let's just turn left, instead of being random.
-//			}
-//			else if(bothLeftSensors())	//if only right sensor is off
-//				turnRight();	//go right
-//			else if(bothRightSensors())	//if only left sensor is off
-//				turnLeft();
-//			else if (!(bothLeftSensors() || bothRightSensors() || bothFrontSensors()))
-//				// four-way intersection ==> always pick the same direction (I choose Left)
-//				turnLeft();
-//			else
-//			{
-//				// dead end ==> turn around
-//				turnRight();
-//				turnRight();
-//			}
-//		}
-		
-//		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.FrontLeft) ? 't' : 'f', 4, 3);
-//		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.FrontRight) ? 't' : 'f', 5, 3);
-//		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.RightFront) ? 't' : 'f', 6, 3);
-//		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.RightBack) ? 't' : 'f', 7, 3);
-//		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.BackRight) ? 't' : 'f', 8, 3);
-//		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.BackLeft) ? 't' : 'f', 9, 3);
-//		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.LeftBack) ? 't' : 'f', 10, 3);
-//		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.LeftFront) ? 't' : 'f', 11, 3);
+			turnLeft();
+		else
+			straight();
+	}
+	
+	/**
+	 * Implements Gaurav's algorithm.
+	 */
+	private void algorithm2()
+	{
+		//Gaurav's algorithm:
+		if(bothFrontSensors())	//wait until front sensor is on
+		{
+			if(!bothLeftSensors() && !bothRightSensors())	//if both left and right sensors are off
+			{
+//				if(Math.random() < 0.5)	//decide randomly whether to turn left or right
+//					turnLeft();
+//				else
+//					turnRight();
+				turnLeft(); // let's just turn left, instead of being random.
+			}
+			else if(bothLeftSensors())	//if only right sensor is off
+				turnRight();	//go right
+			else if(bothRightSensors())	//if only left sensor is off
+				turnLeft();
+			else if (!(bothLeftSensors() || bothRightSensors() || bothFrontSensors()))
+				// four-way intersection ==> always pick the same direction (I choose Left)
+				turnLeft();
+			else
+			{
+				// dead end ==> turn around
+				turnRight();
+				turnRight();
+			}
+		}
+	}
+	
+	/**
+	 * Displays the current sensor values on the NXT display.
+	 */
+	private void displaySensorValues()
+	{
+		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.FrontLeft) ? 't' : 'f', 4, 3);
+		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.FrontRight) ? 't' : 'f', 5, 3);
+		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.RightFront) ? 't' : 'f', 6, 3);
+		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.RightBack) ? 't' : 'f', 7, 3);
+		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.BackRight) ? 't' : 'f', 8, 3);
+		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.BackLeft) ? 't' : 'f', 9, 3);
+		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.LeftBack) ? 't' : 'f', 10, 3);
+		LCD.drawChar(shortRangeSensors.getData(DigitalSensorArray.LeftFront) ? 't' : 'f', 11, 3);
 	}
 	
 	private void straight()
@@ -163,10 +213,12 @@ public class UrbanChallenge extends NXTApp
 	{
 		return leftBackSensorData() && leftFrontSensorData();
 	}
+	
 	private boolean eitherLeftSensor()
 	{
 		return leftBackSensorData() || leftFrontSensorData();
 	}
+	
 	private boolean neitherLeftSensor()
 	{
 		return !eitherLeftSensor();
@@ -177,23 +229,40 @@ public class UrbanChallenge extends NXTApp
 		return frontLeftSensorData() && frontRightSensorData();
 	}
 	
-//	private boolean bothRightSensors()
-//	{
-//		return rightFrontSensorData() && rightBackSensorData();
-//	}
+	private boolean bothRightSensors()
+	{
+		return rightFrontSensorData() && rightBackSensorData();
+	}
 	
 	private boolean leftBackSensorData()
-	{ return shortRangeSensors.getData(DigitalSensorArray.LeftBack); }
+	{
+		return shortRangeSensors.getData(DigitalSensorArray.LeftBack);
+	}
+	
 	private boolean leftFrontSensorData()
-	{ return shortRangeSensors.getData(DigitalSensorArray.LeftFront); }
+	{
+		return shortRangeSensors.getData(DigitalSensorArray.LeftFront);
+	}
+	
 	private boolean frontLeftSensorData()
-	{ return shortRangeSensors.getData(DigitalSensorArray.FrontLeft); }
+	{
+		return shortRangeSensors.getData(DigitalSensorArray.FrontLeft);
+	}
+	
 	private boolean frontRightSensorData()
-	{ return shortRangeSensors.getData(DigitalSensorArray.FrontRight); }
-//	private boolean rightFrontSensorData()
-//	{ return shortRangeSensors.getData(DigitalSensorArray.RightFront); }
-//	private boolean rightBackSensorData()
-//	{ return shortRangeSensors.getData(DigitalSensorArray.RightBack); }
+	{
+		return shortRangeSensors.getData(DigitalSensorArray.FrontRight);
+	}
+	
+	private boolean rightFrontSensorData()
+	{
+		return shortRangeSensors.getData(DigitalSensorArray.RightFront);
+	}
+	
+	private boolean rightBackSensorData()
+	{
+		return shortRangeSensors.getData(DigitalSensorArray.RightBack);
+	}
 	
 	private void rotateCW()
 	{
