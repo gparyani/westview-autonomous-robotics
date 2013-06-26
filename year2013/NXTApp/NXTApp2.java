@@ -172,7 +172,7 @@ public abstract class NXTApp2 {
 	 * @param source who interrupted this app. Most of the time (if you're another NXTApp), you'll pass {@code this}.
 	 * @see NXTApp2#interrupted()
 	 */
-	public void interrupt(NXTApp2 source)
+	public final void interrupt(NXTApp2 source)
 	{
 		runningThread.sendInterrupt(source);
 	}
