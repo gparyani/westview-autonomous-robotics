@@ -15,9 +15,11 @@ public class GoldRush extends NXTApp
 	
 	boolean wasHit;
 	boolean backing, turning;
-	final int HIT_WAIT	   = 1000,
-			  BACKING_TIME = 300,
-			  TURNING_TIME = 400;
+	final int 
+		DELAY_TIME = 500, // time to keep moving forward after hitting something
+		BACKING_TIME = 300, // time to back away after delaying after hitting something
+		TURNING_TIME = 400, // time to turn after backing away
+		SAFE_TIME = 500; // time to not go for the beacon after turning
 	
 	private long startTime;
 	
@@ -89,22 +91,29 @@ public class GoldRush extends NXTApp
 			// perform evasion maneuvers!
 			if (backing)
 			{
-				System.out.println("was hit; backing up");
-				if (System.currentTimeMillis() - startTime >= BACKING_TIME)
+				if (System.currentTimeMillis() - startTime < DELAY_TIME)
 				{
-					// go to next stage: turning
-					backing = false;
-					turning = true;
+					System.out.println("was hit; delaying");
 				}
 				else
 				{
-					backwards();
+					System.out.println("was hit; backing up");
+					if (System.currentTimeMillis() - startTime >= DELAY_TIME + BACKING_TIME)
+					{
+						// go to next stage: turning
+						backing = false;
+						turning = true;
+					}
+					else
+					{
+						backwards();
+					}
 				}
 			}
 			if (turning)
 			{
 				System.out.println("was hit; turning");
-				if (System.currentTimeMillis() - startTime >= BACKING_TIME + TURNING_TIME)
+				if (System.currentTimeMillis() - startTime >= DELAY_TIME + BACKING_TIME + TURNING_TIME)
 				{
 					// go to next stage: forward again
 					turning = false;
@@ -121,7 +130,7 @@ public class GoldRush extends NXTApp
 				forward();
 			}
 			
-			if (System.currentTimeMillis() - startTime >= HIT_WAIT)
+			if (System.currentTimeMillis() - startTime >= DELAY_TIME + BACKING_TIME + TURNING_TIME + SAFE_TIME)
 			{
 				System.out.println("was hit; going for beacon");
 				// hit timer timed out; go for the beacon again after this.
