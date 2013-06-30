@@ -75,7 +75,7 @@ public class GoldRush extends NXTApp
 	}
 	void tick()
 	{
-		if (colliding())
+		if (colliding() && !wasHit)
 		{
 			System.out.println("just collided");
 			// if we hit something, then:
