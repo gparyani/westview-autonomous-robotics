@@ -79,7 +79,7 @@ public class GoldRush extends NXTApp
 	{
 		if (colliding() && !wasHit)
 		{
-			System.out.println("just collided");
+			//System.out.println("just collided");
 			// if we hit something, then:
 			//   reset the timer
 			//   mark that we are moving backwards
@@ -95,11 +95,11 @@ public class GoldRush extends NXTApp
 			{
 				if (System.currentTimeMillis() - startTime < DELAY_TIME)
 				{
-					System.out.println("was hit; delaying");
+					//System.out.println("was hit; delaying");
 				}
 				else
 				{
-					System.out.println("was hit; backing up");
+					//System.out.println("was hit; backing up");
 					if (System.currentTimeMillis() - startTime >= DELAY_TIME + BACKING_TIME)
 					{
 						// go to next stage: turning
@@ -114,7 +114,7 @@ public class GoldRush extends NXTApp
 			}
 			if (turning)
 			{
-				System.out.println("was hit; turning");
+				//System.out.println("was hit; turning");
 				if (System.currentTimeMillis() - startTime >= DELAY_TIME + BACKING_TIME + TURNING_TIME)
 				{
 					// go to next stage: forward again
@@ -127,14 +127,14 @@ public class GoldRush extends NXTApp
 			}
 			if (!backing && !turning)// moving forward again
 			{
-				System.out.println("was hit; moving foward again");
+				//System.out.println("was hit; moving foward again");
 				// third stage
 				forward();
 			}
 			
 			if (System.currentTimeMillis() - startTime >= DELAY_TIME + BACKING_TIME + TURNING_TIME + SAFE_TIME)
 			{
-				System.out.println("was hit; going for beacon");
+				//System.out.println("was hit; going for beacon");
 				// hit timer timed out; go for the beacon again after this.
 				wasHit = false;
 				backing = false;
@@ -143,7 +143,7 @@ public class GoldRush extends NXTApp
 		}
 		else
 		{
-			System.out.println("i <3 beacon!");
+			System.out.println("going for beacon; angle=" + beacon.getAngle());
 			// go for the beacon!
 			aimAtBeacon();
 			forward();
