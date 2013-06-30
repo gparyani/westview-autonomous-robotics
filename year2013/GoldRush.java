@@ -8,11 +8,9 @@ import lejos.nxt.SensorPort;
 public class GoldRush extends NXTApp
 {
 	boolean Started = false;
-	boolean Exit = false;
 	
 	UpdatingThread timer;
-	DigitalSensor[] shortRange;
-	GyroSensor gyro;
+	DigitalSensorArray shortRange;
 	BeaconSensor beacon;
 	final int NUM_SHORT_RANGE = 8;
 	
@@ -82,13 +80,8 @@ public class GoldRush extends NXTApp
 		
 		Motors.Left.setReverse(true);
 		
-		shortRange = new DigitalSensor[NUM_SHORT_RANGE];
-		for (int i = 0; i < NUM_SHORT_RANGE; i++)
-		{
-			shortRange[i] = new DigitalSensor(SensorAddresses.B, i, SensorPort.S2);
-		}
+		shortRange = new DigitalSensorArray(SensorAddresses.B, SensorPort.S2, SensorPort.S3);
 		
-		gyro = new GyroSensor(SensorPort.S3);
 		beacon = new BeaconSensor(SensorPort.S4, BeaconSensor.DC);
 		timer = new UpdatingThread();
 		
@@ -97,9 +90,7 @@ public class GoldRush extends NXTApp
 	
 	public void Update()
 	{
-		for (int i = 0; i < NUM_SHORT_RANGE; i++)
-			shortRange[i].Update();
-		gyro.Update();
+		shortRange.Update();
 
 		LCD.clearDisplay();
 		LCD.drawString("Was hit? " + (wasHit? "yes" : "no"), 0, 5);
@@ -115,22 +106,11 @@ public class GoldRush extends NXTApp
 			LCD.drawString("Press any button\nto end Gold Rush.", 0, 0);
 			
 			tick();
-			
-			if (Button.Left.Pressed() || Button.Right.Pressed() || 
-				Button.Enter.Pressed() || Button.Escape.Pressed())
-			{
-				Motors.Left.stop();
-				Motors.Right.stop();
-				Motors.Front.stop();
-				Motors.Back.stop();
-				Exit = true;
-			}
 		}
 	}
 	void startMessage()
 	{
 		LCD.drawString("Press any button\nto start the\nGold Rush.", 0, 0);
-		gyro.ResetAngle();
 
 		if (Button.Left.Pressed() || Button.Right.Pressed() 
 				|| Button.Enter.Pressed() || Button.Escape.Pressed())
@@ -256,25 +236,31 @@ public class GoldRush extends NXTApp
 	// is the robot colliding with anything?
 	boolean colliding()
 	{
-		boolean[] data = shortRangeData();
-		// TODO: don't use back sensors
-		for (int i = 0; i < NUM_SHORT_RANGE; i++)
+		boolean[] data = new boolean[]
+		{
+			shortRange.getData(DigitalSensorArray.LeftFront),
+			shortRange.getData(DigitalSensorArray.FrontLeft),
+			shortRange.getData(DigitalSensorArray.FrontRight),
+			shortRange.getData(DigitalSensorArray.RightFront)
+		};
+		for (int i = 0; i < data.length; i++)
 			if (data[i])
 				return true;
 		return false;
 	}
 	
-	boolean[] shortRangeData()
-	{
-		boolean[] data = new boolean[NUM_SHORT_RANGE];
-		for (int i = 0; i < NUM_SHORT_RANGE; i++)
-			data[i] = shortRange[i].GetData();
-		return data;
-	}
-	
 	public boolean ShouldExit()
 	{
-		return Exit;
+		if (Button.Left.Pressed() || Button.Right.Pressed() || 
+			Button.Enter.Pressed() || Button.Escape.Pressed())
+		{
+			Motors.Left.stop();
+			Motors.Right.stop();
+			Motors.Front.stop();
+			Motors.Back.stop();
+			return true;
+		}
+		return false;
 	}
 	
 	public static void main(String[] args) throws Exception
