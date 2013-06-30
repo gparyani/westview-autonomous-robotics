@@ -21,6 +21,9 @@ public class GoldRush extends NXTApp
 		TURNING_TIME = 400, // time to turn after backing away
 		SAFE_TIME = 500; // time to not go for the beacon after turning
 	
+	static long initialStartTime;
+	final int INITIAL_WAIT_TIME = 3000;
+	
 	final int BEACON_MOTOR_POWER = 30;
 	
 	private long startTime;
@@ -75,11 +78,12 @@ public class GoldRush extends NXTApp
 			Motors.Back.stop();
 			LCD.clearDisplay();
 			Started = true;
+			initialStartTime = System.currentTimeMillis();
 		}
 	}
 	void tick()
 	{
-		if (colliding() && !wasHit)
+		if (colliding() && !wasHit && System.currentTimeMillis() - initialStartTime >= INITIAL_WAIT_TIME)
 		{
 			//System.out.println("just collided");
 			// if we hit something, then:
