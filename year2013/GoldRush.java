@@ -16,10 +16,12 @@ public class GoldRush extends NXTApp
 	boolean wasHit;
 	boolean backing, turning;
 	final int 
-		DELAY_TIME = 500, // time to keep moving forward after hitting something
+		DELAY_TIME = 150, // time to keep moving forward after hitting something
 		BACKING_TIME = 300, // time to back away after delaying after hitting something
 		TURNING_TIME = 400, // time to turn after backing away
 		SAFE_TIME = 500; // time to not go for the beacon after turning
+	
+	final int BEACON_MOTOR_POWER = 30;
 	
 	private long startTime;
 	
@@ -150,8 +152,16 @@ public class GoldRush extends NXTApp
 	// move forward!
 	void forward()
 	{
-		Motors.Left.forward();
-		Motors.Right.forward();
+		if (beacon.getAngle() == Float.NaN)
+		{
+			Motors.Left.forward();
+			Motors.Right.forward();
+		}
+		else
+		{
+			Motors.Left.setPower(BEACON_MOTOR_POWER);
+			Motors.Right.setPower(BEACON_MOTOR_POWER);
+		}
 		Motors.Front.stop();
 		Motors.Back.stop();
 	}
