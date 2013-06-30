@@ -8,11 +8,12 @@ import lejos.nxt.SensorPort;
 public class DragRace extends NXTApp
 {
 	boolean Started = false;
-	boolean Exit = false;
 	
-	DigitalSensor ShortRange;
-	DistanceSensor MediumRange;
-	GyroSensor Gyro;
+	DigitalSensorArray sensors;
+	
+	private final boolean STOPPING_AT_WALL = false;
+	private long timeNearWall = -1;
+	private final long TIME_UNTIL_STOP = 500; // ms
 	
 	public DragRace()
 	{
@@ -20,36 +21,30 @@ public class DragRace extends NXTApp
 		
 		Motors.Initialize(SensorPort.S1);
 		
-		ShortRange = new DigitalSensor(SensorAddresses.B, 0, SensorPort.S2);
-		MediumRange = new DistanceSensor(SensorAddresses.A1, SensorPort.S2);
-		Gyro = new GyroSensor(SensorPort.S3);
+		sensors = new DigitalSensorArray(SensorAddresses.B, SensorPort.S2, SensorPort.S3);
+		
+		Motors.Left.setReverse(true);
+		Motors.Back.setReverse(true);
 	}
 	
 	public void Update()
 	{
-		ShortRange.Update();
-		MediumRange.Update();
-		Gyro.Update();
+		sensors.Update();
 
 		LCD.clearDisplay();
-		LCD.drawString("Angle: " + Gyro.GetAngle(), 0, 6);
 		if (!Started)
 		{
-			LCD.drawString("Press any button\nto start the\ndrag race.", 0, 0);
-			Gyro.ResetAngle();
+			LCD.drawString(NXTApp.splitString("Press enter to start the drag race, or press escape to exit."), 0, 0);
 
-			if (Button.Left.Pressed() || Button.Right.Pressed() 
-					|| Button.Enter.Pressed() || Button.Escape.Pressed())
+			if (Button.Enter.IsDown())
 			{
-				Motors.Left.backward();
+				Motors.Left.forward();
 				Motors.Right.forward();
 				Motors.Front.stop();
 				Motors.Back.stop();
 				LCD.clearDisplay();
 				Started = true;
 			}
-			
-			LCD.drawString("Dist: " + DistanceSensor.GetDistance(MediumRange, ShortRange) + "cm", 0, 7);
 		}
 		else
 		{
@@ -57,29 +52,44 @@ public class DragRace extends NXTApp
 			
 			UpdateMotors();
 			
-			if (//DistanceSensor.GetDistance(MediumRange, ShortRange) < 20
-					/*||*/ Button.Left.Pressed() || Button.Right.Pressed() 
-					|| Button.Enter.Pressed() || Button.Escape.Pressed())
-			{
-				Motors.Left.stop();
-				Motors.Right.stop();
-				Motors.Front.stop();
-				Motors.Back.stop();
-				Exit = true;
-			}
+			if (STOPPING_AT_WALL)
+				if (timeNearWall == -1 && sensors.getData(DigitalSensorArray.FrontLeft) && sensors.getData(DigitalSensorArray.FrontRight))
+					timeNearWall = System.currentTimeMillis();
 		}
 	}
 	
 	private void UpdateMotors()
 	{
-		double angle = Gyro.GetAngle();
-		Motors.Front.setPower((int)angle);
-		Motors.Back.setPower((int)angle);
+		if (sensors.getData(DigitalSensorArray.LeftFront) || sensors.getData(DigitalSensorArray.LeftBack))
+		{
+			// strafe right
+			Motors.Front.backward();
+			Motors.Back.backward();
+		}
+		else if (sensors.getData(DigitalSensorArray.RightFront) || sensors.getData(DigitalSensorArray.RightBack))
+		{
+			// strafe left
+			Motors.Front.forward();
+			Motors.Back.forward();
+		}
+		else
+		{
+			Motors.Front.setPower(0);//-15);
+			Motors.Back.stop();
+		}
 	}
 	
 	public boolean ShouldExit()
 	{
-		return Exit;
+		if (Button.Escape.IsDown() || (STOPPING_AT_WALL && timeNearWall != -1 && System.currentTimeMillis() - timeNearWall >= TIME_UNTIL_STOP))
+		{
+			Motors.Left.stop();
+			Motors.Right.stop();
+			Motors.Front.stop();
+			Motors.Back.stop();
+			return true;
+		}
+		return false;
 	}
 	
 	public static void main(String[] args) throws Exception
