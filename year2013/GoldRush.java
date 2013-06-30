@@ -25,6 +25,8 @@ public class GoldRush extends NXTApp
 	
 	private long startTime;
 	
+	final double ANGLE_MULT = 5;
+	
 	public GoldRush()
 	{
 		super(1); // update time of 1 ms
@@ -199,8 +201,8 @@ public class GoldRush extends NXTApp
 	{
 		float angle = beacon.getAngle();
 		if (angle == Float.NaN) return;
-		Motors.Front.setPower((int)angle);
-		Motors.Back.setPower((int)angle);
+		Motors.Front.setPower((int)(angle * ANGLE_MULT));
+		Motors.Back.setPower((int)(angle * ANGLE_MULT));
 	}
 	// is the robot colliding with anything?
 	boolean colliding()
