@@ -13,7 +13,7 @@ public class DigitalSensor extends Sensor
 	{
 		super(readBufferAddress, 1, SensorAddresses.Superpro, port);
 		this.ReadBufferBit = readBufferBit;
-		this.Data = false;
+		this.Data = true;
 		this.InvertData = false;
 	}
 	
