@@ -172,8 +172,11 @@ public class UrbanChallenge extends NXTApp
 	}
 	private void turnLeft()
 	{
-		final double MOVE_FORWARD_TIME = 1;
+		final double TIME_BEFORE_STOP = .25;
+		final double MOVE_FORWARD_TIME = .75;
+		final double UTURN_MOVE_FORWARD_TIME = .25;
 		
+		this.wait(TIME_BEFORE_STOP);
 		Motors.stopAllMotors();
 		System.out.println("Turned left.");
 		this.rotateCCW();
@@ -190,6 +193,7 @@ public class UrbanChallenge extends NXTApp
 		
 		System.out.println("U-Turn!");
 		
+		moveForwardForTime(UTURN_MOVE_FORWARD_TIME);
 		System.out.println("Turning left.");
 		this.rotateCCW();
 		printDirection();
@@ -197,16 +201,16 @@ public class UrbanChallenge extends NXTApp
 		System.out.println("Moving forward.");
 		moveForwardForTime(MOVE_FORWARD_TIME);
 		
-		System.out.println("Strafing left.");
-		this.strafeLeft();
-		{
-			while (!bothLeftSensors())
-			{
-				System.out.println("LF: " + (leftFrontSensorData() ? 'T' : 'F') +  ", LB: " + (leftBackSensorData() ? 'T' : 'F'));
-				shortRangeSensors.Update();
-			}
-		}
-		this.stopStrafeLeft();
+//		System.out.println("Strafing left.");
+//		this.strafeLeft();
+//		{
+//			while (!bothLeftSensors())
+//			{
+//				System.out.println("LF: " + (leftFrontSensorData() ? 'T' : 'F') +  ", LB: " + (leftBackSensorData() ? 'T' : 'F'));
+//				shortRangeSensors.Update();
+//			}
+//		}
+//		this.stopStrafeLeft();
 	}
 	
 	private boolean bothLeftSensors()
@@ -270,8 +274,6 @@ public class UrbanChallenge extends NXTApp
 		Motors.rotateClockwise();
 //		maze.move(Movement.TurnRight);
 		setMotorDirections();
-		numTurns++;
-		System.out.println("Rotated CW.");
 	}
 	private void rotateCCW()
 	{
@@ -279,8 +281,6 @@ public class UrbanChallenge extends NXTApp
 		Motors.rotateCounterClockwise();
 //		maze.move(Movement.TurnLeft);
 		setMotorDirections();
-		numTurns++;
-		System.out.println("Rotated CCW.");
 	}
 	
 	private void moveForwardForTime(double seconds)
@@ -294,16 +294,21 @@ public class UrbanChallenge extends NXTApp
 		Motors.Left.stop();
 		Motors.Right.stop();
 	}
-	private void strafeLeft()
+	private void wait(double seconds)
 	{
-		Motors.Front.forward(MOTOR_POWER);
-		Motors.Back.forward(MOTOR_POWER);
+		try { Thread.sleep((long)(seconds * 1000)); }
+		catch (InterruptedException e) { }
 	}
-	private void stopStrafeLeft()
-	{
-		Motors.Front.stop();
-		Motors.Back.stop();
-	}
+//	private void strafeLeft()
+//	{
+//		Motors.Front.forward(MOTOR_POWER);
+//		Motors.Back.forward(MOTOR_POWER);
+//	}
+//	private void stopStrafeLeft()
+//	{
+//		Motors.Front.stop();
+//		Motors.Back.stop();
+//	}
 
 	public boolean ShouldExit()
 	{

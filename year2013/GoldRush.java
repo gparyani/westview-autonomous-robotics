@@ -9,68 +9,17 @@ public class GoldRush extends NXTApp
 {
 	boolean Started = false;
 	
-	UpdatingThread timer;
 	DigitalSensorArray shortRange;
 	BeaconSensor beacon;
 	final int NUM_SHORT_RANGE = 8;
 	
 	boolean wasHit;
 	boolean backing, turning;
-	final int HIT_WAIT	   = 2000,
-			  BACKING_TIME = 1000,
-			  TURNING_TIME = 500;
+	final int HIT_WAIT	   = 1000,
+			  BACKING_TIME = 300,
+			  TURNING_TIME = 400;
 	
-	private static class UpdatingThread implements Runnable
-	{
-		private volatile long currentTime, originalTime;
-		private static int instances;
-		private int instanceNumber;
-		
-		public UpdatingThread()
-		{
-			instanceNumber = ++instances;
-			reset();
-			Thread toRun = new Thread(this);
-			toRun.setDaemon(true);
-			toRun.setName("Gold Rush Timer Thread " + instanceNumber);
-			toRun.start();
-		}
-		
-		@Override
-		public void run()
-		{
-			while (true)
-				currentTime = System.currentTimeMillis();
-		}
-		
-		public void reset()
-		{
-			currentTime = originalTime = System.currentTimeMillis();
-		}
-		
-		public long getTime()
-		{
-			return currentTime - originalTime;
-		}
-		
-		@Override
-		public boolean equals(Object o)
-		{
-			return instanceNumber == ((UpdatingThread)o).instanceNumber;
-		}
-		
-		@Override
-		public int hashCode()
-		{
-			return instanceNumber;
-		}
-		
-		@Override
-		protected void finalize()
-		{
-			instances--;
-		}
-	}
+	private long startTime;
 	
 	public GoldRush()
 	{
@@ -83,7 +32,6 @@ public class GoldRush extends NXTApp
 		shortRange = new DigitalSensorArray(SensorAddresses.B, SensorPort.S2, SensorPort.S3);
 		
 		beacon = new BeaconSensor(SensorPort.S4, BeaconSensor.DC);
-		timer = new UpdatingThread();
 		
 		wasHit = backing = turning = false;
 	}
@@ -131,7 +79,7 @@ public class GoldRush extends NXTApp
 			// if we hit something, then:
 			//   reset the timer
 			//   mark that we are moving backwards
-			timer.reset();
+			startTime = System.currentTimeMillis();
 			wasHit = true;
 			backing = true;
 			turning = false;
@@ -142,7 +90,7 @@ public class GoldRush extends NXTApp
 			if (backing)
 			{
 				System.out.println("was hit; backing up");
-				if (timer.getTime() >= BACKING_TIME)
+				if (System.currentTimeMillis() - startTime >= BACKING_TIME)
 				{
 					// go to next stage: turning
 					backing = false;
@@ -156,7 +104,7 @@ public class GoldRush extends NXTApp
 			if (turning)
 			{
 				System.out.println("was hit; turning");
-				if (timer.getTime() >= BACKING_TIME + TURNING_TIME)
+				if (System.currentTimeMillis() - startTime >= BACKING_TIME + TURNING_TIME)
 				{
 					// go to next stage: forward again
 					turning = false;
@@ -173,7 +121,7 @@ public class GoldRush extends NXTApp
 				forward();
 			}
 			
-			if (timer.getTime() >= HIT_WAIT)
+			if (System.currentTimeMillis() - startTime >= HIT_WAIT)
 			{
 				System.out.println("was hit; going for beacon");
 				// hit timer timed out; go for the beacon again after this.
@@ -251,8 +199,7 @@ public class GoldRush extends NXTApp
 	
 	public boolean ShouldExit()
 	{
-		if (Button.Left.Pressed() || Button.Right.Pressed() || 
-			Button.Enter.Pressed() || Button.Escape.Pressed())
+		if (Button.Left.Pressed() || Button.Right.Pressed() || Button.Escape.Pressed())
 		{
 			Motors.Left.stop();
 			Motors.Right.stop();
