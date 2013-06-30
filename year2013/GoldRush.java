@@ -103,8 +103,8 @@ public class GoldRush extends NXTApp
 
 		LCD.clearDisplay();
 		LCD.drawString("Was hit? " + (wasHit? "yes" : "no"), 0, 5);
-		LCD.drawString("Gryo Angle: " + gyro.GetAngle(), 0, 6);
-		LCD.drawString("IR Angle: " + beacon.getAngle(), 0, 7);
+		//LCD.drawString("Gryo Angle: " + gyro.GetAngle(), 0, 6);
+		//LCD.drawString("IR Angle: " + beacon.getAngle(), 0, 7);
 		
 		if (!Started)
 		{
@@ -147,6 +147,7 @@ public class GoldRush extends NXTApp
 	{
 		if (colliding())
 		{
+			System.out.println("just collided");
 			// if we hit something, then:
 			//   reset the timer
 			//   mark that we are moving backwards
@@ -160,6 +161,7 @@ public class GoldRush extends NXTApp
 			// perform evasion maneuvers!
 			if (backing)
 			{
+				System.out.println("was hit; backing up");
 				if (timer.getTime() >= BACKING_TIME)
 				{
 					// go to next stage: turning
@@ -173,6 +175,7 @@ public class GoldRush extends NXTApp
 			}
 			if (turning)
 			{
+				System.out.println("was hit; turning");
 				if (timer.getTime() >= BACKING_TIME + TURNING_TIME)
 				{
 					// go to next stage: forward again
@@ -185,12 +188,14 @@ public class GoldRush extends NXTApp
 			}
 			if (!backing && !turning)// moving forward again
 			{
+				System.out.println("was hit; moving foward again");
 				// third stage
 				forward();
 			}
 			
 			if (timer.getTime() >= HIT_WAIT)
 			{
+				System.out.println("was hit; going for beacon");
 				// hit timer timed out; go for the beacon again after this.
 				wasHit = false;
 				backing = false;
@@ -199,6 +204,7 @@ public class GoldRush extends NXTApp
 		}
 		else
 		{
+			System.out.println("i <3 beacon!");
 			// go for the beacon!
 			aimAtBeacon();
 			forward();
