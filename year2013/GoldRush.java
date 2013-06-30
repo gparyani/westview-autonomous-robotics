@@ -25,7 +25,7 @@ public class GoldRush extends NXTApp
 	
 	private long startTime;
 	
-	final double ANGLE_MULT = 5;
+	final double ANGLE_MULT = 10;
 	
 	public GoldRush()
 	{
@@ -154,7 +154,7 @@ public class GoldRush extends NXTApp
 	// move forward!
 	void forward()
 	{
-		if (beacon.getAngle() == Float.NaN)
+		if (Float.isNaN(beacon.getAngle()))
 		{
 //			Motors.Left.forward();
 //			Motors.Right.forward();
