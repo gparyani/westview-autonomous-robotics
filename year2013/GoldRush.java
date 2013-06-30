@@ -154,8 +154,10 @@ public class GoldRush extends NXTApp
 	{
 		if (beacon.getAngle() == Float.NaN)
 		{
-			Motors.Left.forward();
-			Motors.Right.forward();
+//			Motors.Left.forward();
+//			Motors.Right.forward();
+			Motors.Left.setPower(100);
+			Motors.Right.setPower(100);
 		}
 		else
 		{
