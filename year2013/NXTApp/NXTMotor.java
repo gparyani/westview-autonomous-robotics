@@ -108,4 +108,14 @@ public class NXTMotor
 			if (Button.LEFT.isDown() || Button.RIGHT.isDown() || Button.ENTER.isDown() || Button.ESCAPE.isDown())
 				break;
 	}
+	
+	private static final double WHEEL_RADIUS = 5; // cm
+	public double getDistanceTraveled()
+	{
+		return WHEEL_RADIUS * motor.getTachoCount() * Math.PI / 180;
+	}
+	public void resetDistanceTraveled()
+	{
+		motor.resetTachoCount();
+	}
 }
