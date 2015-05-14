@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path=""/>
+	<classpathentry kind="con" path="org.lejos.ev3.ldt.LEJOS_EV3_LIBRARY_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/Owner/SkyDrive/Java Projects/leJOS NXJ/lib/nxt/classes.jar"/>
 	<classpathentry kind="lib" path="C:/Program Files/leJOS NXJ/lib/nxt/classes.jar" sourcepath="C:/Program Files/leJOS NXJ/lib/nxt/classes-src.zip">
